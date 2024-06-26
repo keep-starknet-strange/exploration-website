@@ -1,10 +1,7 @@
-'use client'
-
 import { BackgroundImage } from '@/components/BackgroundImage'
 import { Container } from '@/components/Container'
-import { MissionCard } from '@/components/MissionCard'
 
-const applications = [
+const missions = [
   {
     id: 1,
     title: 'Application 1',
@@ -35,8 +32,20 @@ export function Mission() {
         <BackgroundImage position="right" className="-bottom-32 -top-40" />
         <Container className="relative">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {applications.map((app) => (
-              <MissionCard key={app.id} app={app} />
+            {missions.map((mission, missionIndex) => (
+              <div
+                key={missionIndex}
+                className="group relative overflow-hidden rounded-lg bg-white shadow-lg"
+              >
+                <img
+                  className="h-48 w-full object-cover"
+                  src={mission.imageUrl}
+                  alt={mission.title}
+                />
+                <div className="p-6">
+                  <h2 className="text-xl font-semibold">{mission.title}</h2>
+                </div>
+              </div>
             ))}
           </div>
         </Container>

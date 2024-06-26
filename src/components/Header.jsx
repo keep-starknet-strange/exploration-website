@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Container } from '@/components/Container'
-import { Logo } from '@/components/Logo'
 
 function GitHubIcon(props) {
   return (
@@ -16,7 +15,13 @@ export function Header() {
     <header className="relative z-50 flex-none lg:pt-11">
       <Container className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap">
         <div className="mt-10 lg:mt-0 lg:grow lg:basis-0">
-          <Logo className="h-12 w-auto text-slate-900" />
+          <Image
+            className="h-12 w-auto text-slate-900"
+            src="/images/logos/explorationLogo.png"
+            width={533}
+            height={97}
+            alt="Exploration Team"
+          />
         </div>
         <div className="order-first flex flex-auto basis-full overflow-x-auto whitespace-nowrap border-b border-blue-600/10 py-4 font-mono text-sm text-blue-600 sm:-mx-6 lg:order-none lg:mx-0 lg:basis-auto lg:border-0 lg:py-0">
           <div className="flex items-center px-4"></div>
