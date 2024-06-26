@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
 
@@ -21,8 +22,8 @@ export function Header() {
           <div className="flex items-center px-4"></div>
         </div>
         <div className="flex justify-end gap-6 sm:gap-8 md:flex-grow">
-          <p className="font-mono text-sm text-blue-600">
-            keep starknet strange
+          <p className="font-mono text-sm text-slate-300">
+            keep-starknet-strange
           </p>
           <Link
             href="https://github.com/keep-starknet-strange"
@@ -30,6 +31,19 @@ export function Header() {
             aria-label="GitHub"
           >
             <GitHubIcon className="h-6 w-6 fill-slate-400 group-hover:fill-slate-500 dark:group-hover:fill-slate-300" />
+          </Link>
+          <Link
+            href="https://app.onlydust.com/ecosystems/starknet"
+            className="group"
+            aria-label="OnlyDust"
+          >
+            <Image
+              // className='bg-blend-darken hover:bg-blend-lighten'
+              src="/images/logos/onlyDustLogo.png"
+              width={24}
+              height={24}
+              alt="OD Logo"
+            />
           </Link>
         </div>
       </Container>
