@@ -15,7 +15,7 @@ const missions = [
     imageUrl: '/images/bestPractices.png',
   },
   {
-    title: 'Ecosystem Quality',
+    title: 'Boost Quality',
     description:
       'Ensure code quality and create projects that can be used as reference implementations.',
     imageUrl: '/images/ecosystemQuality.png',
@@ -31,7 +31,7 @@ export function Mission() {
           <div className="my-4 bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text pb-2 text-4xl font-semibold tracking-tighter text-transparent">
             <span className="text-slate-50">Core</span> Mission
           </div>
-          <div className="grid grid-cols-1 gap-14 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-14 sm:grid-cols-3 col-end-auto">
             {missions.map((mission, missionIndex) => (
               <div
                 key={missionIndex}

@@ -23,32 +23,34 @@ export function Header() {
             alt="Exploration Team"
           />
         </div>
-        <div className="order-first flex flex-auto basis-full overflow-x-auto whitespace-nowrap border-b border-blue-600/10 py-4 font-mono text-sm text-blue-600 sm:-mx-6 lg:order-none lg:mx-0 lg:basis-auto lg:border-0 lg:py-0">
-          <div className="flex items-center px-4"></div>
-        </div>
-        <div className="mb-6 flex justify-end gap-6 sm:gap-8 md:flex-grow">
-          <p className="text-sm text-slate-300 font-light tracking-tight">Projects</p>
-          <p className="text-sm text-slate-300 font-light tracking-tight">Issues</p>
-          <Link
-            href="https://github.com/keep-starknet-strange"
-            className="group"
-            aria-label="GitHub"
-          >
-            <GitHubIcon className="h-5 w-5 fill-slate-400 group-hover:fill-slate-500 dark:group-hover:fill-slate-300" />
-          </Link>
-          <Link
-            href="https://app.onlydust.com/ecosystems/starknet"
-            className="group"
-            aria-label="OnlyDust"
-          >
-            <Image
-              // className='bg-blend-darken hover:bg-blend-lighten'
-              src="/images/logos/onlyDustLogo.png"
-              width={20}
-              height={20}
-              alt="OD Logo"
-            />
-          </Link>
+        <div className="mb-6 flex flex-row justify-end md:flex-grow divide-x-2 divide-slate-700">
+          <div className="flex flex-row gap-6 mr-4">
+            <div className="text-md text-slate-300 font-light tracking-tight hover:text-slate-500">Projects</div>
+            <div className="text-md text-slate-300 font-light tracking-tight  hover:text-slate-500">Issues</div>
+          </div>
+          <div className="flex flex-row gap-6 pl-4">
+            <Link
+              href="https://github.com/keep-starknet-strange"
+              className="group"
+              aria-label="GitHub"
+            >
+              <GitHubIcon className="h-5 w-5 fill-slate-400 group-hover:fill-slate-500 dark:group-hover:fill-slate-300" />
+            </Link>
+            <Link
+              href="https://app.onlydust.com/ecosystems/starknet"
+              className="group"
+              aria-label="OnlyDust"
+            >
+              <Image
+                // className='bg-blend-darken hover:bg-blend-lighten'
+                src="/images/logos/onlyDustLogo.png"
+                width={20}
+                height={20}
+                alt="OD Logo"
+              />
+            </Link>
+
+          </div>
         </div>
       </Container>
     </header>

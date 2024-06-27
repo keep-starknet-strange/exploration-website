@@ -97,11 +97,13 @@ export function Team() {
                 key={memberIndex}
                 className="group relative overflow-hidden rounded-lg border border-slate-700 hover:drop-shadow-glow"
               >
+                <div className=" bg-gradient-to-r from-violet-500 to-indigo-500">
                 <img
-                  className="h-44 w-full object-cover"
+                  className="h-44 w-full object-cover opacity-75"
                   src={member.imageUrl}
                   alt={member.name}
                 />
+                  </div>
                 <div className="flex flex-row justify-between bg-slate-700 p-4">
                   <div className="text-large align text-slate-400">
                     {member.name}
