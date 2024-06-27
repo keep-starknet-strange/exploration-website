@@ -1,6 +1,3 @@
-import { BackgroundImage } from '@/components/BackgroundImage'
-import { Container } from '@/components/Container'
-
 const members = [
   {
     name: 'Abdel',
@@ -80,17 +77,16 @@ function TwitterIcon(props) {
 export function Team() {
   return (
     <section id="team" aria-label="Team">
-      <div className="relative mt-4 sm:mt-24">
-        {/* <BackgroundImage position="right" className="-bottom-32 -top-40" /> */}
-        <Container className="relative">
-          <div className="my-4 bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text pb-2 text-4xl font-bold tracking-tighter text-transparent">
-            <span className="text-slate-50">Meet the</span> Team
-          </div>
+      <div className="relative mt-10 sm:mt-24">
+        <div className="mx-auto my-4 max-w-6xl bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text px-4 pb-2 text-4xl font-bold tracking-tighter text-transparent sm:px-8 lg:px-12">
+          <span className="text-slate-50">Meet the</span> Team
+        </div>
+        <div className="relative mx-auto max-w-5xl p-10 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
             {members.map((member, memberIndex) => (
               <div
                 key={memberIndex}
-                className="group relative overflow-hidden rounded-lg border border-slate-700 hover:drop-shadow-glow"
+                className="group relative overflow-hidden rounded-lg border border-slate-700"
               >
                 <img
                   className="h-44 w-full object-cover"
@@ -98,19 +94,19 @@ export function Team() {
                   alt={member.name}
                 />
                 <div className="flex flex-row justify-between bg-slate-700 p-4">
-                  <div className="text-large align font-semibold text-slate-400">
+                  <div className="text-large align text-slate-400">
                     {member.name}
                   </div>
-                  <div className="flex flex-row gap-x-3">
-                    <GitHubIcon className="h-6 w-6 fill-slate-400" />
-                    <TwitterIcon className="h-6 w-6 fill-slate-400" />
-                    <TelegramIcon className="h-6 w-6 fill-slate-400" />
+                  <div className="flex flex-row gap-x-2">
+                    <GitHubIcon className="h-5 w-5 fill-slate-400 hover:drop-shadow-glow" />
+                    <TwitterIcon className="h-5 w-5 fill-slate-400 hover:drop-shadow-glow" />
+                    <TelegramIcon className="h-5 w-5 fill-slate-400 hover:drop-shadow-glow" />
                   </div>
                 </div>
               </div>
             ))}
           </div>
-        </Container>
+        </div>
       </div>
     </section>
   )
