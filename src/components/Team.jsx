@@ -25,15 +25,15 @@ const missions = [
   },
 ]
 
-export function Mission() {
+export function Team() {
   return (
-    <section id="mission" aria-label="Mission">
+    <section id="team" aria-label="Team">
       <div className="relative mt-4 sm:mt-24">
         {/* <BackgroundImage position="right" className="-bottom-32 -top-40" /> */}
         <Container className="relative">
 
           <div className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text pb-2 font-bold tracking-tighter text-transparent text-5xl my-4">
-            <span className="text-slate-50">Core</span> Mission
+            <span className="text-slate-50">Meet the</span> Team
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {missions.map((mission, missionIndex) => (

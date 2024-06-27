@@ -31,6 +31,12 @@ module.exports = {
       maxWidth: {
         '2xl': '40rem',
       },
+      dropShadow: {
+        glow: [
+          '0 0px 5px rgba(128, 128, 128, 0.35)',
+          '0 0px 25px rgba(124, 58, 237, 0.2)',
+        ],
+      },
     },
   },
   plugins: [headlessuiPlugin],

@@ -20,7 +20,7 @@ const dmSans = DM_Sans({
 export const metadata = {
   title: {
     template: '%s - Exploration',
-    default: 'SW Exploration Team',
+    default: 'StarkWare | Exploration',
   },
   description:
     'Our goal is to kickstart exciting projects and to work hands in hands with the community. ',
@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={clsx('h-full antialiased', inter.variable, dmSans.variable)}
     >
-      <body className="flex min-h-full bg-slate-950">
+      <body className="flex min-h-full bg-slate-900">
         <div className="flex w-full flex-col">
           <Layout>{children}</Layout>
         </div>

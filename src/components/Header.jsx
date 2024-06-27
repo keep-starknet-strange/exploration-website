@@ -17,7 +17,7 @@ export function Header() {
         <div className="mt-10 lg:mt-0 lg:grow lg:basis-0">
           <Image
             className="h-12 w-auto text-slate-900"
-            src="/images/logos/explorationLogo.png"
+            src="/images/logos/swExplorationLogo.png"
             width={533}
             height={97}
             alt="Exploration Team"
@@ -27,9 +27,6 @@ export function Header() {
           <div className="flex items-center px-4"></div>
         </div>
         <div className="flex justify-end gap-6 sm:gap-8 md:flex-grow">
-          <p className="font-mono text-sm text-slate-300">
-            keep-starknet-strange
-          </p>
           <Link
             href="https://github.com/keep-starknet-strange"
             className="group"

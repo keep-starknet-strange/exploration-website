@@ -5,7 +5,7 @@ export function BackgroundImage({ className, position = 'left' }) {
   return (
     <div
       className={clsx(
-        'absolute inset-0 overflow-hidden bg-slate-950',
+        'absolute inset-0 overflow-hidden bg-slate-900',
         className,
       )}
     >
@@ -18,8 +18,8 @@ export function BackgroundImage({ className, position = 'left' }) {
         priority
         unoptimized
       />
-      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-slate-950" />
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-950" />
+      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-slate-900" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-900" />
     </div>
   )
 }

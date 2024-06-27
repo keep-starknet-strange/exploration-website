@@ -14,8 +14,8 @@ export function Projects() {
   return (
     <section id="projects" aria-labelledby="projects-title">
       <Container>
-        <TabGroup className="mt-14 grid grid-cols-1 items-start gap-x-8 gap-y-8 sm:mt-16 sm:gap-y-16 lg:mt-24 lg:grid-cols-4">
-          <div className="relative -mx-4 flex overflow-x-auto pb-4 sm:mx-0 sm:block sm:overflow-visible sm:pb-0">
+        <TabGroup className="grid grid-cols-1 items-start gap-x-8 gap-y-8 sm:mt-16 sm:gap-y-16 lg:mt-10 lg:grid-cols-4">
+          <div className="pb-4sm:mx-0 relative ml-6 flex overflow-x-auto sm:block sm:overflow-visible sm:pb-0">
             <div className="absolute bottom-0 left-0.5 top-2 hidden w-px bg-slate-200 lg:block" />
             <TabList className="grid auto-cols-auto grid-flow-col justify-start gap-x-8 gap-y-10 whitespace-nowrap px-4 sm:mx-auto sm:max-w-2xl sm:grid-cols-3 sm:px-0 sm:text-center lg:grid-flow-row lg:grid-cols-1 lg:text-left">
               {({ selectedIndex }) => (
@@ -35,7 +35,7 @@ export function Projects() {
                           className={clsx(
                             'font-mono text-sm',
                             categoryIndex === selectedIndex
-                              ? 'text-slate-300'
+                              ? 'text-slate-200'
                               : 'stroke-slate-100 text-slate-600',
                           )}
                         >
@@ -59,7 +59,7 @@ export function Projects() {
                 unmount={false}
               >
                 {projectData[category].map((project, projectIndex) => (
-                  <div key={projectIndex} >
+                  <div key={projectIndex}>
                     <ProjectCard project={project} />
                   </div>
                 ))}
