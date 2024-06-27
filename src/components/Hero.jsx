@@ -23,9 +23,12 @@ export function Hero() {
               ['Merged PRs', '2,666'],
               ['Total Grants', '$592,529'],
             ].map(([name, value]) => (
-              <div key={name}>
-                <dt className="font-mono text-sm text-slate-600">{name}</dt>
-                <dd className="mt-0.5 text-2xl font-semibold tracking-tight text-slate-400">
+              <div
+                key={name}
+                className="mx-auto flex max-w-xs flex-col gap-y-2"
+              >
+                <dt className="text-base leading-7 text-slate-600">{name}</dt>
+                <dd className="order-first text-2xl font-semibold tracking-tight text-slate-400">
                   {value}
                 </dd>
               </div>

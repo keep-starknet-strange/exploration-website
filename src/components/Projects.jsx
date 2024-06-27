@@ -15,13 +15,13 @@ export function Projects() {
     <section id="projects" aria-labelledby="projects-title">
       <Container>
         <TabGroup className="grid grid-cols-1 items-start gap-x-8 gap-y-8 sm:mt-16 sm:gap-y-16 lg:mt-10 lg:grid-cols-4">
-          <div className="pb-4sm:mx-0 relative ml-6 flex overflow-x-auto sm:block sm:overflow-visible sm:pb-0">
-            <div className="absolute bottom-0 left-0.5 top-2 hidden w-px bg-slate-200 lg:block" />
+          <div className="relative ml-6 flex overflow-x-auto pb-4 sm:block sm:overflow-visible sm:pb-0">
+            <div className="absolute bottom-6 left-0.5 top-2 hidden w-px bg-slate-500 lg:block" />
             <TabList className="grid auto-cols-auto grid-flow-col justify-start gap-x-8 gap-y-10 whitespace-nowrap px-4 sm:mx-auto sm:max-w-2xl sm:grid-cols-3 sm:px-0 sm:text-center lg:grid-flow-row lg:grid-cols-1 lg:text-left">
               {({ selectedIndex }) => (
                 <>
                   {categoryLabels.map((category, categoryIndex) => (
-                    <div key={categoryIndex} className="relative lg:pl-8">
+                    <div key={categoryIndex} className="relative pb-4 lg:pl-8">
                       <DiamondIcon
                         className={clsx(
                           'absolute left-[-0.5px] top-[0.5625rem] hidden h-1.5 w-1.5 overflow-visible lg:block',

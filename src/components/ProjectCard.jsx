@@ -20,11 +20,11 @@ export function ProjectCard({ project }) {
       </div>
 
       <div className="px-6 pb-2 pt-2">
-        <span className="mx-2 inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-gray-400/20">
+        <span className="mx-2 inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs text-gray-400 ring-1 ring-inset ring-gray-400/20">
           <strong>{project.contribs}</strong>&nbsp;Contribs
         </span>
-        <span className="mx-2 inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400 ring-1 ring-inset ring-green-500/20">
-          <strong>${project.totalPaidK}K</strong>&nbsp;Paid
+        <span className="mx-2 inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs text-green-400 ring-1 ring-inset ring-green-500/20">
+          <strong>${project.totalPaidK}K</strong>
         </span>
       </div>
 
