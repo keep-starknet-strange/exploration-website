@@ -1,63 +1,6 @@
+import { getAllTeam } from '@/lib/exploration'
+import Image from 'next/image'
 import Link from 'next/link'
-
-const members = [
-  {
-    name: 'Abdel',
-    ghHandle: 'https://github.com/AbdelStark',
-    twitterHandle: 'https://twitter.com/dimahledba',
-    tgHandle: 'AbdelStark',
-    imageUrl: 'https://avatars.githubusercontent.com/u/45264458?v=4',
-  },
-  {
-    name: 'Lucas',
-    ghHandle: 'https://github.com/LucasLvy',
-    twitterHandle: 'https://twitter.com/lucas_lvy',
-    tgHandle: 'LucasLvy',
-    imageUrl: 'https://avatars.githubusercontent.com/u/70894690?v=4',
-  },
-  {
-    name: 'Ben',
-    ghHandle: 'https://github.com/drspacemn',
-    twitterHandle: 'https://twitter.com/DrSpacemn',
-    tgHandle: 'drspacemn',
-    imageUrl: 'https://avatars.githubusercontent.com/u/16685321?v=4',
-  },
-  {
-    name: 'Timothée',
-    ghHandle: 'https://github.com/tdelabro',
-    twitterHandle: 'https://twitter.com/tdelabro',
-    tgHandle: 'tdelabro',
-    imageUrl: 'https://avatars.githubusercontent.com/u/34384633?v=4',
-  },
-  {
-    name: 'Brandon',
-    ghHandle: 'https://github.com/b-j-roberts',
-    twitterHandle: 'b-j-roberts',
-    tgHandle: 'b-j-roberts',
-    imageUrl: 'https://avatars.githubusercontent.com/u/54774639?v=4',
-  },
-  {
-    name: 'Chqrles',
-    ghHandle: 'https://github.com/0xChqrles',
-    twitterHandle: '0xChqrles',
-    tgHandle: '0xChqrles',
-    imageUrl: 'https://avatars.githubusercontent.com/u/19663399?v=4',
-  },
-  {
-    name: 'Lana',
-    ghHandle: 'https://github.com/lana-shanghai',
-    twitterHandle: 'https://twitter.com/tx_track',
-    tgHandle: 'lana-shanghai',
-    imageUrl: 'https://avatars.githubusercontent.com/u/31368580?v=4',
-  },
-  {
-    name: 'Maciej',
-    ghHandle: 'https://github.com/maciejka',
-    twitterHandle: 'https://twitter.com/aundumla',
-    tgHandle: 'maciejka',
-    imageUrl: 'https://avatars.githubusercontent.com/u/190855?v=4',
-  },
-]
 
 function GitHubIcon(props) {
   return (
@@ -84,11 +27,12 @@ function TwitterIcon(props) {
 }
 
 export function Team() {
+  const members = getAllTeam()
   return (
     <section id="team" aria-label="Team">
       <div className="relative mt-10 sm:mt-24">
         <div className="mx-auto my-4 max-w-6xl bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text px-4 pb-2 text-4xl font-semibold tracking-tighter text-transparent sm:px-8 lg:px-12">
-          <span className="text-slate-50">Meet</span> the Team
+          <span className="text-slate-50">Exploration</span> Team
         </div>
         <div className="relative mx-auto max-w-5xl p-10 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -97,25 +41,29 @@ export function Team() {
                 key={memberIndex}
                 className="group relative overflow-hidden rounded-lg border border-slate-700 hover:drop-shadow-glow"
               >
-                <div className=" bg-gradient-to-r from-violet-500 to-indigo-500">
-                <img
-                  className="h-44 w-full object-cover opacity-75"
-                  src={member.imageUrl}
-                  alt={member.name}
-                />
-                  </div>
+                <div className="bg-gradient-to-r from-violet-500 to-indigo-500">
+                  <Image
+                    className="opacity-80"
+                    src={member.imageUrl}
+                    alt={member.name}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{ width: '100%', height: 'auto' }}
+                  />
+                </div>
                 <div className="flex flex-row justify-between bg-slate-700 p-4">
-                  <div className="text-large align text-slate-400">
+                  <div className="text-large align font-extralight text-slate-400">
                     {member.name}
                   </div>
-                  <div className="flex flex-row gap-x-2">
-                  <Link href={member.ghHandle}>
-                    <GitHubIcon className="h-5 w-5 fill-slate-400 hover:drop-shadow-glow" />
+                  <div className="mt-1 flex flex-row gap-x-2">
+                    <Link href={member.ghHandle}>
+                      <GitHubIcon className="h-4 w-4 fill-slate-400 hover:drop-shadow-glow" />
                     </Link>
                     <Link href={member.twitterHandle}>
-                    <TwitterIcon className="h-5 w-5 fill-slate-400 hover:drop-shadow-glow" />
+                      <TwitterIcon className="h-4 w-4 fill-slate-400 hover:drop-shadow-glow" />
                     </Link>
-                    <TelegramIcon className="h-5 w-5 fill-slate-400 hover:drop-shadow-glow" />
+                    <TelegramIcon className="h-4 w-4 fill-slate-400 hover:drop-shadow-glow" />
                   </div>
                 </div>
               </div>

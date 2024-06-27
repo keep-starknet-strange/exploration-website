@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Best Practices",
+    "description": "Bootstrap projects that enforce or create best development practices in the community.",
+    "imageUrl": "/images/bestPractices.png"
+  },
+  {
+    "title": "Boost Quality",
+    "description": "Maintain project code quality such that they can be used as reference implementations.",
+    "imageUrl": "/images/boostQuality.png"
+  },
+  {
+    "title": "Dogfooding",
+    "description": "Hands-on use of tooling across the Starknet, and Cairo ecosystems to identify painpoints.",
+    "imageUrl": "/images/dogfooding.png"
+  }
+]

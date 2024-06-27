@@ -1,20 +1,20 @@
+import { LinkIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import Link from 'next/link'
-import { LinkIcon } from '@heroicons/react/24/solid'
 
 export function ProjectCard({ project }) {
   return (
-    <div className="group h-[17.5rem] transform overflow-hidden rounded-4xl border border-slate-700 text-center hover:drop-shadow-glow">
+    <div className="group h-[17rem] transform overflow-hidden rounded-4xl border border-slate-700 text-center hover:drop-shadow-glow">
       <Image
         className="mx-auto mt-2 transition duration-300 group-hover:scale-110"
         src={project.imageUrl}
         alt={project.name}
-        width={150}
-        height={150}
+        width={125}
+        height={125}
         priority
       />
       <div className="px-6 py-3">
-        <div className="mb-2 text-xl tracking-widest text-slate-300 transition duration-300 group-hover:scale-95">
+        <div className="text-l mb-2 font-light tracking-widest text-slate-300 transition duration-300 group-hover:scale-95">
           {project.name}
         </div>
       </div>

@@ -1,8 +1,10 @@
-import Image from 'next/image'
 import { Container } from '@/components/Container'
 import { HeroBackground } from '@/components/HeroBackground'
+import { getOnlyDustData } from '@/lib/exploration'
 
 export function Hero() {
+  const onlyDustData = getOnlyDustData()
+
   return (
     <div className="sm:pt-26 relative py-20 sm:pb-16">
       <div className="absolute inset-x-[-50vw] -bottom-4 -top-32 opacity-25 lg:-bottom-3 lg:-top-32 lg:left-[calc(50%+14rem)] lg:right-0 lg:[mask-image:none] dark:[mask-image:linear-gradient(transparent,white,transparent)] lg:dark:[mask-image:linear-gradient(white,white,transparent)]">
@@ -17,12 +19,7 @@ export function Hero() {
             Together.
           </div>
           <dl className="mt-10 grid grid-cols-2 gap-x-10 gap-y-6 sm:mt-16 sm:gap-x-16 sm:gap-y-10 sm:text-center lg:auto-cols-auto lg:grid-flow-col lg:grid-cols-none lg:justify-start lg:text-left">
-            {[
-              ['Repos', '71'],
-              ['Unique Contribs', '316'],
-              ['Merged PRs', '2,666'],
-              ['Total Grants', '$592,529'],
-            ].map(([name, value]) => (
+            {onlyDustData.map(([name, value]) => (
               <div
                 key={name}
                 className="mx-auto flex max-w-xs flex-col gap-y-2"

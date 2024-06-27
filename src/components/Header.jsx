@@ -1,6 +1,6 @@
-import Link from 'next/link'
-import Image from 'next/image'
 import { Container } from '@/components/Container'
+import Image from 'next/image'
+import Link from 'next/link'
 
 function GitHubIcon(props) {
   return (
@@ -15,18 +15,28 @@ export function Header() {
     <header className="relative z-50 flex-none lg:pt-11">
       <Container className="flex flex-wrap items-center justify-center sm:justify-between lg:flex-nowrap">
         <div className="mt-10 lg:mt-0 lg:grow lg:basis-0">
-          <Image
-            className="h-12 w-auto text-slate-900"
-            src="/images/logos/swExplorationLogo.png"
-            width={533}
-            height={97}
-            alt="Exploration Team"
-          />
+          <Link href="/">
+            <Image
+              className="h-12 w-auto text-slate-900"
+              src="/images/logos/swExplorationLogo.png"
+              width={533}
+              height={97}
+              alt="Exploration Team"
+            />
+          </Link>
         </div>
-        <div className="mb-6 flex flex-row justify-end md:flex-grow divide-x-2 divide-slate-700">
-          <div className="flex flex-row gap-6 mr-4">
-            <div className="text-md text-slate-300 font-light tracking-tight hover:text-slate-500">Projects</div>
-            <div className="text-md text-slate-300 font-light tracking-tight  hover:text-slate-500">Issues</div>
+        <div className="flex flex-row justify-end divide-x-2 divide-slate-700 pt-10 md:flex-grow md:pt-0">
+          <div className="mr-4 flex flex-row gap-6">
+            <Link href="/projects">
+              <div className="text-sm font-light tracking-tight text-slate-300 hover:text-slate-500">
+                Projects
+              </div>
+            </Link>
+            <Link href="issues">
+              <div className="text-sm font-light tracking-tight text-slate-300 hover:text-slate-500">
+                Issues
+              </div>
+            </Link>
           </div>
           <div className="flex flex-row gap-6 pl-4">
             <Link
@@ -42,14 +52,12 @@ export function Header() {
               aria-label="OnlyDust"
             >
               <Image
-                // className='bg-blend-darken hover:bg-blend-lighten'
                 src="/images/logos/onlyDustLogo.png"
                 width={20}
                 height={20}
                 alt="OD Logo"
               />
             </Link>
-
           </div>
         </div>
       </Container>

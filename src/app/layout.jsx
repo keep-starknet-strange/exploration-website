@@ -1,8 +1,7 @@
-import { DM_Sans, Inter } from 'next/font/google'
 import { Layout } from '@/components/Layout'
-import clsx from 'clsx'
-
 import '@/styles/tailwind.css'
+import clsx from 'clsx'
+import { DM_Sans, Inter } from 'next/font/google'
 
 const inter = Inter({
   subsets: ['latin'],

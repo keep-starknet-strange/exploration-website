@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Cairo Book",
+    "href": "https://book.cairo-lang.org/"
+  },
+  {
+    "name": "Starknet Book",
+    "href": "https://book.starknet.io/"
+  },
+  {
+    "name": "Starknet Foundry Book",
+    "href": "https://foundry-rs.github.io/starknet-foundry/"
+  },
+  {
+    "name": "Starknet by Example",
+    "href": "https://starknet-by-example.voyager.online/"
+  },
+  {
+    "name": "Starkli",
+    "href": "https://book.starkli.rs/"
+  }
+]
