@@ -25,10 +25,10 @@ const missions = [
 export function Mission() {
   return (
     <section id="mission" aria-label="Mission">
-      <div className="relative mt-4 sm:mt-24">
+      <div className="relative mt-14">
         {/* <BackgroundImage position="right" className="-bottom-32 -top-40" /> */}
         <Container className="relative">
-          <div className="my-4 bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text pb-2 text-4xl font-bold tracking-tighter text-transparent">
+          <div className="my-4 bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text pb-2 text-4xl font-semibold tracking-tighter text-transparent">
             <span className="text-slate-50">Core</span> Mission
           </div>
           <div className="grid grid-cols-1 gap-14 sm:grid-cols-3">

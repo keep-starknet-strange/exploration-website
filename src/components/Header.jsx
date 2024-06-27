@@ -26,13 +26,15 @@ export function Header() {
         <div className="order-first flex flex-auto basis-full overflow-x-auto whitespace-nowrap border-b border-blue-600/10 py-4 font-mono text-sm text-blue-600 sm:-mx-6 lg:order-none lg:mx-0 lg:basis-auto lg:border-0 lg:py-0">
           <div className="flex items-center px-4"></div>
         </div>
-        <div className="flex justify-end gap-6 sm:gap-8 md:flex-grow">
+        <div className="mb-6 flex justify-end gap-6 sm:gap-8 md:flex-grow">
+          <p className="text-small text-slate-300 font-light tracking-tight">Projects</p>
+          <p className="text-small text-slate-300 font-light tracking-tight">Issues</p>
           <Link
             href="https://github.com/keep-starknet-strange"
             className="group"
             aria-label="GitHub"
           >
-            <GitHubIcon className="h-6 w-6 fill-slate-400 group-hover:fill-slate-500 dark:group-hover:fill-slate-300" />
+            <GitHubIcon className="h-5 w-5 fill-slate-400 group-hover:fill-slate-500 dark:group-hover:fill-slate-300" />
           </Link>
           <Link
             href="https://app.onlydust.com/ecosystems/starknet"
@@ -42,8 +44,8 @@ export function Header() {
             <Image
               // className='bg-blend-darken hover:bg-blend-lighten'
               src="/images/logos/onlyDustLogo.png"
-              width={24}
-              height={24}
+              width={20}
+              height={20}
               alt="OD Logo"
             />
           </Link>

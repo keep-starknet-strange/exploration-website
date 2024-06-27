@@ -174,15 +174,6 @@ export const projects = [
     imageUrl: '/images/logos/projects/zaunLogoSm.png',
     url: 'https://github.com/keep-starknet-strange/zaun',
   },
-  {
-    name: 'Gitcoin Allo',
-    category: 'Infrastructure',
-    description: 'Gitcoin Allo protocol for Starknet ',
-    contribs: 2,
-    totalPaidK: 1,
-    imageUrl: '/images/logos/projects/gitcoinAlloLogoSm.png',
-    url: 'https://github.com/keep-starknet-strange/gitcoin-allo-starknet',
-  },
 ]
 
 export function getProjectCategories() {
