@@ -59,7 +59,9 @@ export function Projects() {
                 unmount={false}
               >
                 {projectData[category].map((project, projectIndex) => (
-                  <ProjectCard project={project} projectIndex={projectIndex} />
+                  <div key={projectIndex} >
+                    <ProjectCard project={project} />
+                  </div>
                 ))}
               </TabPanel>
             ))}
