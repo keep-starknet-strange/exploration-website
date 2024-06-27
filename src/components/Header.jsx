@@ -27,8 +27,8 @@ export function Header() {
           <div className="flex items-center px-4"></div>
         </div>
         <div className="mb-6 flex justify-end gap-6 sm:gap-8 md:flex-grow">
-          <p className="text-small text-slate-300 font-light tracking-tight">Projects</p>
-          <p className="text-small text-slate-300 font-light tracking-tight">Issues</p>
+          <p className="text-sm text-slate-300 font-light tracking-tight">Projects</p>
+          <p className="text-sm text-slate-300 font-light tracking-tight">Issues</p>
           <Link
             href="https://github.com/keep-starknet-strange"
             className="group"
