@@ -1,3 +1,4 @@
+import { Container } from '@/components/Container'
 import { getAllTeam } from '@/lib/exploration'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -30,7 +31,16 @@ export function Team() {
   const members = getAllTeam()
   return (
     <section id="team" aria-label="Team">
-      <div className="relative mt-10 sm:mt-24">
+      <Container className="relative mt-10 sm:mt-24">
+        <div className="absolute inset-x-0 -z-10 -ml-44 opacity-30">
+          <Image
+            src="/images/darkSw.png"
+            alt="bckgrnd"
+            width="1024"
+            height="1024"
+          />
+          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-slate-900" />
+        </div>
         <div className="mx-auto my-4 max-w-6xl bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text px-4 pb-2 text-4xl font-semibold tracking-tighter text-transparent sm:px-8 lg:px-12">
           <span className="text-slate-50">Exploration</span> Team
         </div>
@@ -43,7 +53,7 @@ export function Team() {
               >
                 <div className="bg-gradient-to-r from-violet-500 to-indigo-500">
                   <Image
-                    className="opacity-80"
+                    className="opacity-85"
                     src={member.imageUrl}
                     alt={member.name}
                     width={0}
@@ -70,7 +80,7 @@ export function Team() {
             ))}
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   )
 }
