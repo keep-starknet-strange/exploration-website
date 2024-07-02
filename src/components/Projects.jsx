@@ -26,7 +26,7 @@ export function Projects() {
 
   return (
     <section id="projects" aria-labelledby="projects-title">
-      <div className="absolute inset-x-[-50vw] -bottom-4 -top-32 opacity-10 lg:-bottom-3 lg:-top-32 lg:left-[calc(50%+14rem)] lg:right-0 lg:[mask-image:none] dark:[mask-image:linear-gradient(transparent,white,transparent)] lg:dark:[mask-image:linear-gradient(white,white,transparent)]">
+      <div className="absolute inset-x-[-50vw] -bottom-4 -top-32 opacity-15 lg:-bottom-3 lg:-top-32 lg:left-[calc(50%+14rem)] lg:right-0 lg:[mask-image:none] dark:[mask-image:linear-gradient(transparent,white,transparent)] lg:dark:[mask-image:linear-gradient(white,white,transparent)]">
         <HeroBackground className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:left-0 lg:translate-x-0 lg:translate-y-[-60%]" />
       </div>
       <Container>
