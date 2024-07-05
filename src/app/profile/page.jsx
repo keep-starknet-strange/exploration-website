@@ -2,13 +2,16 @@
 
 import { Profile } from '@/components/Profile'
 import { StarknetProvider } from '@/components/StarknetProvider'
-import { useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
+  const router = useRouter()
+
   const { data, status } = useSession({
     required: true,
     onUnauthenticated() {
-      // The user is not authenticated, handle it here.
+      router.push('/')
     },
   })
 

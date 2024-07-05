@@ -20,13 +20,13 @@ const steps = [
     name: 'Sign Message',
     description: 'Attest to credentials',
     comp: SignMessage,
-    status: 'current',
+    status: 'complete',
   },
   {
     name: 'Mint NFT',
     description: 'Collectible identity',
     comp: MintNFT,
-    status: 'upcoming',
+    status: 'current',
   },
   {
     name: 'Kudos',
@@ -66,7 +66,7 @@ export function Profile({ data }) {
           src={data.image}
           alt="usrProf"
         />
-        <div className="ml-14 text-4xl font-bold tracking-tighter text-transparent bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text">
+        <div className="ml-14 text-4xl font-bold tracking-tighter text-transparent bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text">
           {data.name}
           {status === 'connected' && (
             <span className="text-2xl font-extralight tracking-tighter">
@@ -93,13 +93,13 @@ export function Profile({ data }) {
                   <>
                     {stepIdx !== steps.length - 1 ? (
                       <div
-                        className="absolute left-4 top-4 -ml-px mt-0.5 h-full w-0.5 bg-indigo-600"
+                        className="absolute left-4 top-4 -ml-px mt-0.5 h-full w-0.5 bg-emerald-600"
                         aria-hidden="true"
                       />
                     ) : null}
                     <a className="group relative flex items-start">
                       <span className="flex h-9 items-center">
-                        <span className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 group-hover:bg-indigo-800">
+                        <span className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600 group-hover:bg-emerald-800">
                           <CheckIcon
                             className="h-5 w-5 text-white"
                             aria-hidden="true"
@@ -107,10 +107,10 @@ export function Profile({ data }) {
                         </span>
                       </span>
                       <span className="ml-4 flex min-w-0 flex-col">
-                        <span className="text-md font-medium text-indigo-800">
+                        <span className="text-md font-medium text-emerald-700">
                           {step.name}
                         </span>
-                        <span className="text-sm font-extralight text-gray-700">
+                        <span className="text-sm font-extralight text-emerald-800">
                           {step.description}
                         </span>
                       </span>
@@ -133,11 +133,11 @@ export function Profile({ data }) {
                         aria-hidden="true"
                       >
                         <span className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-indigo-600 bg-white">
-                          <span className="h-2.5 w-2.5 rounded-full bg-indigo-600" />
+                          <span className="h-2.5 w-2.5 rounded-full bg-emerald-600" />
                         </span>
                       </span>
                       <span className="ml-4 flex min-w-0 flex-col ">
-                        <span className="text-md font-medium text-indigo-400">
+                        <span className="text-md font-medium text-emerald-400">
                           {step.name}
                         </span>
                         <span className="text-sm font-medium text-gray-500">
@@ -164,7 +164,7 @@ export function Profile({ data }) {
                         </span>
                       </span>
                       <span className="ml-4 flex min-w-0 flex-col">
-                        <span className="text-md font-medium text-gray-600">
+                        <span className="text-md font-medium text-gray-500">
                           {step.name}
                         </span>
                         <span className="text-sm font-extralight text-gray-600">
@@ -194,16 +194,16 @@ export function Profile({ data }) {
                       <div
                         type="button"
                         onClick={() => moveBackward()}
-                        className="rounded-md bg-slate-400 px-2 py-2 shadow-sm hover:bg-slate-500"
+                        className="rounded-md bg-slate-500 px-2 py-2 shadow-sm hover:bg-slate-800"
                       >
-                        <ChevronLeftIcon className="h-5 w-5 mx-auto text-sm font-semibold text-slate-600" />
+                        <ChevronLeftIcon className="h-5 w-5 mx-auto text-sm font-semibold text-slate-900" />
                       </div>
                       <div
                         type="button"
                         onClick={() => moveForward()}
-                        className="rounded-md bg-slate-400 px-2 py-2 shadow-sm hover:bg-slate-500"
+                        className="rounded-md bg-slate-500 px-2 py-2 shadow-sm hover:bg-slate-800"
                       >
-                        <ChevronRightIcon className="h-5 w-5 mx-auto text-sm font-semibold text-slate-600" />
+                        <ChevronRightIcon className="h-5 w-5 mx-auto text-sm font-semibold text-slate-900" />
                       </div>
                     </div>
                   </div>

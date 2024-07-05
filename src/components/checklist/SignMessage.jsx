@@ -1,5 +1,5 @@
 import { Textarea } from '@headlessui/react'
-import { PencilSquareIcon } from '@heroicons/react/24/outline'
+import { CheckCircleIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import { useSignTypedData } from '@starknet-react/core'
 import { useState } from 'react'
 
@@ -30,16 +30,35 @@ export function SignMessage() {
   return (
     <>
       <PencilSquareIcon className="h-14 w-14 mx-auto text-slate-50" />
-      <div className="text-md font-light text-slate-50 mb-8 p-8">
-        Digital signatures allow you to attest to data with your private account
-        credentials. Others can verify your attestation using public credentials
-        meaning no secrets are leaked.
+      <div className="text-md font-light text-slate-50 mt-12">
+        Digital signatures allow you to attest to messages with your private
+        account credentials. <br />
+        <br /> Message receiver can verify:
+        <div className="grid grid-cols-4 gap-y-4 mt-4 justify-items-center">
+          <div className="col-start-2">
+            <CheckCircleIcon className="h-5 w-5 text-green-500" />
+          </div>
+          <div className="col-start-3">Msg unmodified</div>
+          <div className="col-start-2">
+            <CheckCircleIcon className="h-5 w-5 text-green-500" />
+          </div>
+          <div className="col-start-3">Sender owns signing key</div>
+          <div className="col-start-2">
+            <CheckCircleIcon className="h-5 w-5 text-green-500" />
+          </div>
+          <div className="col-start-3">Off-chain</div>
+          <div className="col-start-2">
+            <CheckCircleIcon className="h-5 w-5 text-green-500" />
+          </div>
+          <div className="col-start-3">On-chain</div>
+        </div>
       </div>
       <Textarea
-        name="description"
+        name="message"
+        placeholder="(max 31 characters)"
         onChange={(e) => setMessage(e.target.value)}
         value={message}
-        className="bg-slate-800 rounded-xl w-2/3 outline-slate-700 text-slate-400 px-3 py-1"
+        className="bg-slate-800 rounded-xl w-2/3 outline-slate-700 text-slate-400 px-3 py-1 mt-6"
       ></Textarea>
       <div className="mt-6">
         <button
@@ -48,7 +67,7 @@ export function SignMessage() {
             testData.message.contents = message
             signTypedData(testData)
           }}
-          className="rounded-md bg-indigo-50 px-4 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
+          className="rounded-md bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-600 shadow-sm hover:bg-emerald-100"
         >
           Sign
         </button>
