@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <StarknetProvider>
-      {status === 'authenticated' && <Profile data={data.user} />}
+      {status === 'authenticated' && <Profile userData={data.user} />}
     </StarknetProvider>
   )
 }

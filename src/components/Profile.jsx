@@ -6,7 +6,7 @@ import { Container } from '@/components/Container'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useAccount } from '@starknet-react/core'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 // status: 'complete' | 'current' | 'upcoming'
 const steps = [
@@ -14,19 +14,19 @@ const steps = [
     name: 'Link Wallet',
     description: 'To SSO account',
     comp: LinkWallet,
-    status: 'complete',
+    status: 'current',
   },
   {
     name: 'Sign Message',
     description: 'Attest to credentials',
     comp: SignMessage,
-    status: 'complete',
+    status: 'upcoming',
   },
   {
     name: 'Mint NFT',
     description: 'Collectible identity',
     comp: MintNFT,
-    status: 'current',
+    status: 'upcoming',
   },
   {
     name: 'Kudos',
@@ -40,7 +40,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export function Profile({ data }) {
+export function Profile({ userData }) {
   const { address, status } = useAccount()
   const [activeStep, setActiveStep] = useState(
     steps.findIndex((x) => x.status === 'current'),
@@ -63,18 +63,18 @@ export function Profile({ data }) {
       <div className="inline-flex px-10">
         <img
           className="inline-block h-24 w-24 rounded-full"
-          src={data.image}
+          src={userData.image}
           alt="usrProf"
         />
         <div className="ml-14 text-4xl font-bold tracking-tighter text-transparent bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text">
-          {data.name}
+          {userData.name}
           {status === 'connected' && (
             <span className="text-2xl font-extralight tracking-tighter">
               &nbsp;&nbsp;({address.slice(0, 10)})
             </span>
           )}
           <div className="text-xl font-extralight tracking-tighter text-slate-700">
-            {data.email}
+            {userData.email}
           </div>
         </div>
       </div>
@@ -188,7 +188,11 @@ export function Profile({ data }) {
                 >
                   <div className="divide-y divide-slate-500 overflow-hidden rounded-lg bg-slate-700 shadow">
                     <div className="px-4 py-5 sm:p-6">
-                      {status === 'connected' ? <step.comp /> : <LinkWallet />}
+                      {status === 'connected' ? (
+                        <step.comp userData={userData} />
+                      ) : (
+                        <LinkWallet />
+                      )}
                     </div>
                     <div className="px-4 py-4 sm:px-6 flex flex-row justify-between">
                       <div
