@@ -17,12 +17,12 @@ export function ProfileMenu({ data }) {
     <Popover className="relative">
       <PopoverButton className="inline-flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
         <img
-          className="inline-block h-7 w-7 rounded-full"
+          className="inline-block h-6 w-6 rounded-full"
           src={data.image}
           alt="profile-icon"
         />
         <ChevronDownIcon
-          className="h-5 w-5 text-slate-300"
+          className="h-4 w-4 text-slate-300"
           aria-hidden="true"
         />
       </PopoverButton>

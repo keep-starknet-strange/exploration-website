@@ -66,7 +66,7 @@ export function Profile({ userData }) {
           src={userData.image}
           alt="usrProf"
         />
-        <div className="ml-14 text-4xl font-bold tracking-tighter text-transparent bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text">
+        <div className="ml-14 text-4xl font-bold tracking-tighter text-transparent bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text">
           {userData.name}
           {status === 'connected' && (
             <span className="text-2xl font-extralight tracking-tighter">

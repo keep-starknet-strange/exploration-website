@@ -3,9 +3,29 @@
 import { Container } from '@/components/Container'
 import { ProfileMenu } from '@/components/ProfileMenu'
 import { UserCircleIcon } from '@heroicons/react/20/solid'
+import clsx from 'clsx'
 import { signIn, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+function NavItem({ href, children }) {
+  let isActive = usePathname() === href
+
+  return (
+    <li>
+      <Link
+        href={href}
+        className={clsx(
+          'relative block px-4 py-2 transition',
+          isActive ? 'text-slate-200' : 'hover:text-slate-300 text-slate-500',
+        )}
+      >
+        {children}
+      </Link>
+    </li>
+  )
+}
 
 export function Header() {
   const { data, status } = useSession()
@@ -25,7 +45,24 @@ export function Header() {
             />
           </Link>
         </div>
-        <div className="flex flex-row justify-end divide-x-2 divide-slate-700 pt-10 md:flex-grow md:pt-0">
+        <ul className="flex items-center gap-x-2 rounded-full divide-x divide-slate-700 bg-slate-800 bg-opacity-15 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur">
+          <div className="flex flex-row">
+            <NavItem href="/projects">Projects</NavItem>
+            <NavItem href="/issues">Issues</NavItem>
+          </div>
+          <li className="group relative block py-2 pl-4 transition">
+            {status === 'authenticated' ? (
+              <ProfileMenu data={data.user} />
+            ) : (
+              <UserCircleIcon
+                className="h-7 w-7 fill-slate-400 group-hover:fill-slate-500"
+                onClick={() => signIn('google')}
+              />
+            )}
+          </li>
+        </ul>
+        {/* <div className="flex flex-row justify-end divide-x-2 divide-slate-700 pt-10 md:flex-grow md:pt-0 border border-slate-500 rounded-full"> */}
+        {/* <div className="flex rounded-full bg-slate-800 bg-opacity-50 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur">
           <div className="mr-4 flex flex-row gap-6">
             <Link href="/projects">
               <div className="text-md font-light tracking-tight text-slate-300 hover:text-slate-500">
@@ -48,7 +85,7 @@ export function Header() {
               />
             )}
           </div>
-        </div>
+        </div> */}
       </Container>
     </header>
   )
