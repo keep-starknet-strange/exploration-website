@@ -61,31 +61,6 @@ export function Header() {
             )}
           </li>
         </ul>
-        {/* <div className="flex flex-row justify-end divide-x-2 divide-slate-700 pt-10 md:flex-grow md:pt-0 border border-slate-500 rounded-full"> */}
-        {/* <div className="flex rounded-full bg-slate-800 bg-opacity-50 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur">
-          <div className="mr-4 flex flex-row gap-6">
-            <Link href="/projects">
-              <div className="text-md font-light tracking-tight text-slate-300 hover:text-slate-500">
-                Projects
-              </div>
-            </Link>
-            <Link href="issues">
-              <div className="text-md font-light tracking-tight text-slate-300 hover:text-slate-500">
-                Issues
-              </div>
-            </Link>
-          </div>
-          <div className="group flex flex-row gap-6 pl-4">
-            {status === 'authenticated' ? (
-              <ProfileMenu data={data.user} />
-            ) : (
-              <UserCircleIcon
-                className="h-7 w-7 fill-slate-400 group-hover:fill-slate-500 dark:group-hover:fill-slate-300"
-                onClick={() => signIn('google')}
-              />
-            )}
-          </div>
-        </div> */}
       </Container>
     </header>
   )

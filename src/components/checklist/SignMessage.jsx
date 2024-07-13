@@ -18,22 +18,21 @@ const testData = {
     Credentials: [
       { name: 'email', type: 'felt' },
       { name: 'name', type: 'felt' },
-      { name: 'flare', type: 'felt' },
+      { name: 'pin', type: 'felt' },
     ],
   },
   primaryType: 'Credentials',
   message: {
     email: '',
     name: '',
-    flare: '',
+    pin: '',
   },
 }
 
 export function SignMessage({ userData }) {
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('');
   const { data, isSuccess, isPending, signTypedData, isError } =
-    useSignTypedData(testData)
-  console.log('SIGNED: ', data, isSuccess, isPending, isError)
+    useSignTypedData(testData);
 
   return (
     <>

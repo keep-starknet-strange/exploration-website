@@ -14,7 +14,7 @@ const options = [
 
 export function ProfileMenu({ data }) {
   return (
-    <Popover className="relative">
+    <Popover className="relative" transition>
       <PopoverButton className="inline-flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
         <img
           className="inline-block h-6 w-6 rounded-full"
@@ -26,7 +26,7 @@ export function ProfileMenu({ data }) {
           aria-hidden="true"
         />
       </PopoverButton>
-      <PopoverPanel
+      <PopoverPanel  
         transition
         className="absolute left-0 z-10 mt-2 flex w-scree -translate-x-1/2 px-4 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
       >

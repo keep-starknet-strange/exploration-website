@@ -36,7 +36,7 @@ export function LinkWallet() {
               <button
                 onClick={() => connect({ connector })}
                 type="button"
-                className="rounded-md bg-emerald-50 px-4 py-2.5 shadow-sm hover:bg-emerald-200 flex items-center"
+                className="rounded-md bg-emerald-50 px-4 py-2.5 shadow-sm hover:bg-slate-200 flex items-center"
               >
                 <img
                   src={connector.icon.light}
