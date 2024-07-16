@@ -1,5 +1,6 @@
 #[starknet::component]
 pub mod CredentialRegistryComponent {
+    use core::num::traits::zero::Zero;
     use kudos::credential_registry::interface::ICredentialRegistry;
     use openzeppelin::account::interface::{AccountABIDispatcherTrait, AccountABIDispatcher};
     use openzeppelin::account::interface::{ISRC6, ISRC6_ID};
@@ -21,7 +22,7 @@ pub mod CredentialRegistryComponent {
     }
 
     #[derive(Drop, starknet::Event)]
-    struct CredentialsRegistered {
+    pub struct CredentialsRegistered {
         #[key]
         pub address: ContractAddress,
         pub hash: felt252,
@@ -55,7 +56,7 @@ pub mod CredentialRegistryComponent {
             let prev_total = self.total_credentials.read();
             self.total_credentials.write(prev_total + 1);
 
-            self.emit(CredentialsRegistered { hash, hash_w_pin, address })
+            self.emit(CredentialsRegistered { address, hash, hash_w_pin })
         }
 
         fn get_credential(
@@ -84,6 +85,10 @@ pub mod CredentialRegistryComponent {
 
         fn get_total_credentials(self: @ComponentState<TContractState>) -> u128 {
             self.total_credentials.read()
+        }
+
+        fn is_registered(self: @ComponentState<TContractState>, address: ContractAddress) -> bool {
+            self.user_to_credentials.read(address).is_non_zero()
         }
     }
 

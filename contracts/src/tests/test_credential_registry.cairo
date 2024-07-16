@@ -1,19 +1,16 @@
-use core::array::ArrayTrait;
-use core::clone::Clone;
-use kudos::credential_registry::component::CredentialRegistryComponent::HasComponent;
-use kudos::credential_registry::component::CredentialRegistryComponent::InternalImpl;
+use kudos::credential_registry::component::{
+    CredentialRegistryComponent, CredentialRegistryComponent::InternalImpl
+};
 use kudos::credential_registry::interface::{
     ICredentialRegistry, ICredentialRegistryDispatcher, ICredentialRegistryDispatcherTrait
 };
-use kudos::credential_registry::{CredentialRegistryComponent};
-use kudos::mocks::credential_registry_mock::CredentialRegistryMock;
+use kudos::tests::mocks::account_mock::AccountMock;
+use kudos::tests::mocks::credential_registry_mock::CredentialRegistryMock;
 use kudos::tests::utils::constants::{
     BAD_SIGNATURE, CALLER, GOOD_SIGNATURE, GOOD_SIGNATURE_W_PIN, PUBLIC_KEY
 };
-use openzeppelin::account::interface::{AccountABIDispatcherTrait, AccountABIDispatcher};
 use snforge_std::{
-    declare, ContractClassTrait, spy_events, EventSpyTrait, EventSpyAssertionsTrait, Event,
-    start_cheat_caller_address
+    declare, ContractClassTrait, spy_events, EventSpyAssertionsTrait, start_cheat_caller_address
 };
 use starknet::ContractAddress;
 
@@ -24,8 +21,10 @@ fn COMPONENT_STATE() -> ComponentState {
     CredentialRegistryComponent::component_state_for_testing()
 }
 
-fn CONTRACT_STATE() -> CredentialRegistryMock::ContractState {
-    CredentialRegistryMock::contract_state_for_testing()
+fn setup() -> (ICredentialRegistryDispatcher, ContractAddress) {
+    let credential_registry_mock = declare("CredentialRegistryMock");
+    let (contract_address, _) = credential_registry_mock.unwrap().deploy(@array![]).unwrap();
+    (ICredentialRegistryDispatcher { contract_address }, contract_address)
 }
 
 fn setup_account() -> ContractAddress {
@@ -34,21 +33,16 @@ fn setup_account() -> ContractAddress {
     contract_address
 }
 
-fn setup_component_w_account() -> (ComponentState, ContractAddress) {
+fn setup_component() -> (ComponentState, ContractAddress) {
     let mut state = COMPONENT_STATE();
-    (state, setup_account())
-}
 
-fn setup_w_account() -> (ICredentialRegistryDispatcher, ContractAddress) {
-    let credential_registry_mock = declare("CredentialRegistryMock").unwrap();
-    let (contract_address, _) = credential_registry_mock.deploy(@array![]).unwrap();
-    (ICredentialRegistryDispatcher { contract_address }, contract_address)
+    (state, setup_account())
 }
 
 #[test]
 fn test_register_good_credentials() {
     let account_address = setup_account();
-    let (mut credential_registry, credential_registry_address) = setup_component_w_account();
+    let (mut credential_registry, credential_registry_address) = setup();
 
     let (msg_hash, sig) = GOOD_SIGNATURE();
     let (msg_hash_w_pin, sig_w_pin) = GOOD_SIGNATURE_W_PIN();
@@ -63,9 +57,11 @@ fn test_register_good_credentials() {
             @array![
                 (
                     credential_registry_address,
-                    Event {
-                        keys: array![account_address.into()], data: array![msg_hash, msg_hash_w_pin]
-                    }
+                    CredentialRegistryComponent::Event::CredentialsRegistered(
+                        CredentialRegistryComponent::CredentialsRegistered {
+                            address: account_address, hash: msg_hash, hash_w_pin: msg_hash_w_pin
+                        }
+                    )
                 )
             ]
         );
@@ -73,7 +69,7 @@ fn test_register_good_credentials() {
 
 #[test]
 fn test_register_good_credentials_internal() {
-    let (mut state, account_address) = setup_component_w_account();
+    let (mut state, account_address) = setup_component();
 
     let (msg_hash, sig) = GOOD_SIGNATURE();
     state._register_credentials(msg_hash, account_address, sig);
@@ -83,7 +79,7 @@ fn test_register_good_credentials_internal() {
 
 #[test]
 fn test_register_good_credentials_w_pin_internal() {
-    let (mut state, account_address) = setup_component_w_account();
+    let (mut state, account_address) = setup_component();
 
     let (msg_hash, sig) = GOOD_SIGNATURE_W_PIN();
     state._register_credential_w_pin(msg_hash, account_address, sig);
@@ -98,7 +94,7 @@ fn test_register_good_credentials_w_pin_internal() {
 #[test]
 #[should_panic(expected: ('Invalid signature provided',))]
 fn test_register_bad_credentials() {
-    let (mut state, account_address) = setup_component_w_account();
+    let (mut state, account_address) = setup_component();
 
     let (msg_hash, sig) = BAD_SIGNATURE();
     state._register_credentials(msg_hash, account_address, sig);
@@ -107,7 +103,7 @@ fn test_register_bad_credentials() {
 #[test]
 #[should_panic(expected: ('Invalid signature provided',))]
 fn test_register_bad_credentials_w_pin() {
-    let (mut state, account_address) = setup_component_w_account();
+    let (mut state, account_address) = setup_component();
 
     let (msg_hash, sig) = BAD_SIGNATURE();
     state._register_credential_w_pin(msg_hash, account_address, sig);
@@ -116,7 +112,7 @@ fn test_register_bad_credentials_w_pin() {
 #[test]
 #[should_panic(expected: ('User prev registered cred',))]
 fn test_register_duplicate_credentials() {
-    let (mut state, account_address) = setup_component_w_account();
+    let (mut state, account_address) = setup_component();
 
     let (msg_hash, sig) = GOOD_SIGNATURE();
     state._register_credentials(msg_hash, account_address, sig.clone());
@@ -126,7 +122,7 @@ fn test_register_duplicate_credentials() {
 #[test]
 #[should_panic(expected: ('User prev registered cred_w_pin',))]
 fn test_register_duplicate_credentials_w_pin() {
-    let (mut state, account_address) = setup_component_w_account();
+    let (mut state, account_address) = setup_component();
 
     let (msg_hash, sig) = GOOD_SIGNATURE_W_PIN();
     state._register_credential_w_pin(msg_hash, account_address, sig.clone());

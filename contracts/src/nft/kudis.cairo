@@ -1,5 +1,9 @@
 #[starknet::contract]
 mod KudisNFT {
+    use core::num::traits::zero::Zero;
+    use kudos::credential_registry::interface::{
+        ICredentialRegistryDispatcher, ICredentialRegistryDispatcherTrait
+    };
     use kudos::nft::dimensions_store::{Dimensions, DimensionsStorePacking, HEIGHT};
     use kudos::nft::interface::IKudisNFT;
     use openzeppelin::introspection::src5::SRC5Component;
@@ -48,6 +52,13 @@ mod KudisNFT {
         pub token_id: u256,
     }
 
+    pub mod KudisErrors {
+        pub const MINTER_UNREGISTERED: felt252 = 'Must be registered to mint';
+        pub const KUDOS_ADDRESS_SET: felt252 = 'Kudos contract addr already set';
+        pub const KUDOS_ADDRESS_UNSET: felt252 = 'Kudos contract addr unset';
+        pub const KUDOS_ADDRESS_NOT_CALLER: felt252 = 'Caller not Kudos contract';
+    }
+
     #[constructor]
     fn constructor(ref self: ContractState, init_colors: Span<u32>) {
         let base_uri = "https://exploration-website.vercel.app/api/kudos/nft";
@@ -63,12 +74,20 @@ mod KudisNFT {
     #[abi(embed_v0)]
     impl KudisNFT of IKudisNFT<ContractState> {
         fn mint(ref self: ContractState, receiver: ContractAddress) {
+            assert(self.kudos_address.read().is_non_zero(), KudisErrors::KUDOS_ADDRESS_UNSET);
             assert(
                 self.kudos_address.read() == starknet::get_caller_address(),
-                'Only Kudos contract can mint'
+                KudisErrors::KUDOS_ADDRESS_NOT_CALLER
             );
-            let token_id = self.total.read();
 
+            let is_registered = ICredentialRegistryDispatcher {
+                contract_address: self.kudos_address.read()
+            }
+                .is_registered(starknet::get_caller_address());
+
+            assert(is_registered, KudisErrors::MINTER_UNREGISTERED);
+
+            let token_id = self.total.read();
             let mut inner = ArrayTrait::<u16>::new();
             let mut i: u32 = 0;
             while i < HEIGHT {
@@ -89,8 +108,7 @@ mod KudisNFT {
         }
 
         fn set_kudos_address(ref self: ContractState, kudos_address: ContractAddress) {
-            let zero_address = starknet::contract_address_const::<0>();
-            assert(self.kudos_address.read() == zero_address, 'Kudos contract already set');
+            assert(self.kudos_address.read().is_zero(), KudisErrors::KUDOS_ADDRESS_SET);
             self.kudos_address.write(kudos_address);
         }
 

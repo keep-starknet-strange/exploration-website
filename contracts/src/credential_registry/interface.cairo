@@ -14,4 +14,5 @@ pub trait ICredentialRegistry<TState> {
     fn get_credential_w_pin(self: @TState, address: ContractAddress) -> felt252;
     fn get_credential_address_w_pin(self: @TState, hash: felt252) -> ContractAddress;
     fn get_total_credentials(self: @TState) -> u128;
+    fn is_registered(self: @TState, address: ContractAddress) -> bool;
 }

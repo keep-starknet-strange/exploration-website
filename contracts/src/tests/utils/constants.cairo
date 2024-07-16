@@ -9,7 +9,19 @@ pub(crate) const MSG_HASH: felt252 =
     0x492f5c648d6e2c5592504078f28ae39fae7b702a6d6977e7024adbaf1c7ec66;
 
 pub(crate) fn CALLER() -> ContractAddress {
-    contract_address_const::<0xFE>()
+    contract_address_const::<'CALLER'>()
+}
+
+pub(crate) fn RECEIVER() -> ContractAddress {
+    contract_address_const::<'RECEIVER'>()
+}
+
+pub(crate) fn KUDOS() -> ContractAddress {
+    contract_address_const::<'KUDOS'>()
+}
+
+pub(crate) fn KUDIS() -> ContractAddress {
+    contract_address_const::<'KUDIS'>()
 }
 
 pub(crate) fn BAD_SIGNATURE() -> (felt252, Array<felt252>) {

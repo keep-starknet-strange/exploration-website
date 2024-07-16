@@ -1,6 +1,6 @@
 #[starknet::contract]
 pub mod Kudos {
-    use kudos::credential_registry::CredentialRegistryComponent;
+    use kudos::credential_registry::component::CredentialRegistryComponent;
     use starknet::ContractAddress;
 
     component!(
