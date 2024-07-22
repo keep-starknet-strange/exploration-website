@@ -1,11 +1,12 @@
 #[starknet::contract]
-mod KudisNFT {
+pub mod KudisNFT {
+    use core::array::ArrayTrait;
     use core::num::traits::zero::Zero;
     use kudos::credential_registry::interface::{
         ICredentialRegistryDispatcher, ICredentialRegistryDispatcherTrait
     };
     use kudos::nft::dimensions_store::{Dimensions, DimensionsStorePacking, HEIGHT};
-    use kudos::nft::interface::IKudisNFT;
+    use kudos::nft::interface::{IKudisNFT, IKudisNFTMinter};
     use openzeppelin::introspection::src5::SRC5Component;
     use openzeppelin::token::erc721::erc721::ERC721Component::InternalTrait;
     use openzeppelin::token::erc721::interface::IERC721Metadata;
@@ -22,7 +23,7 @@ mod KudisNFT {
     #[abi(embed_v0)]
     impl SRC5Impl = SRC5Component::SRC5Impl<ContractState>;
 
-    impl InternalImpl = ERC721Component::InternalImpl<ContractState>;
+    impl ERC721InternalImpl = ERC721Component::InternalImpl<ContractState>;
 
     #[storage]
     struct Storage {
@@ -38,7 +39,7 @@ mod KudisNFT {
 
     #[event]
     #[derive(Drop, starknet::Event)]
-    enum Event {
+    pub enum Event {
         #[flat]
         ERC721Event: ERC721Component::Event,
         #[flat]
@@ -72,7 +73,7 @@ mod KudisNFT {
     }
 
     #[abi(embed_v0)]
-    impl KudisNFT of IKudisNFT<ContractState> {
+    impl KudisNFTMinter of IKudisNFTMinter<ContractState> {
         fn mint(ref self: ContractState, receiver: ContractAddress) {
             assert(self.kudos_address.read().is_non_zero(), KudisErrors::KUDOS_ADDRESS_UNSET);
             assert(
@@ -83,10 +84,37 @@ mod KudisNFT {
             let is_registered = ICredentialRegistryDispatcher {
                 contract_address: self.kudos_address.read()
             }
-                .is_registered(starknet::get_caller_address());
+                .is_registered(receiver);
 
             assert(is_registered, KudisErrors::MINTER_UNREGISTERED);
 
+            self._mint(receiver);
+        }
+    }
+
+    #[abi(embed_v0)]
+    impl KudisNFT of IKudisNFT<ContractState> {
+        fn get_kudos_address(self: @ContractState) -> ContractAddress {
+            self.kudos_address.read()
+        }
+
+        fn get_total(self: @ContractState) -> u256 {
+            self.total.read()
+        }
+
+        fn get_data(self: @ContractState, token_id: u256) -> Dimensions {
+            self.data.read(token_id)
+        }
+
+        fn set_kudos_address(ref self: ContractState, kudos_address: ContractAddress) {
+            assert(self.kudos_address.read().is_zero(), KudisErrors::KUDOS_ADDRESS_SET);
+            self.kudos_address.write(kudos_address);
+        }
+    }
+
+    #[generate_trait]
+    pub impl InternalImpl of Internaltrait {
+        fn _mint(ref self: ContractState, receiver: ContractAddress) {
             let token_id = self.total.read();
             let mut inner = ArrayTrait::<u16>::new();
             let mut i: u32 = 0;
@@ -99,29 +127,14 @@ mod KudisNFT {
                     }
                     j += 1;
                 };
+                inner.append(hold);
+                i += 1;
             };
 
             self.data.write(token_id, Dimensions { inner });
             self.erc721.mint(receiver, token_id);
             self.total.write(token_id + 1);
             self.emit(KudisNFTMinted { token_id });
-        }
-
-        fn set_kudos_address(ref self: ContractState, kudos_address: ContractAddress) {
-            assert(self.kudos_address.read().is_zero(), KudisErrors::KUDOS_ADDRESS_SET);
-            self.kudos_address.write(kudos_address);
-        }
-
-        fn get_kudos_address(self: @ContractState) -> ContractAddress {
-            self.kudos_address.read()
-        }
-
-        fn get_total(self: @ContractState) -> u256 {
-            self.total.read()
-        }
-
-        fn get_data(self: @ContractState, token_id: u256) -> Dimensions {
-            self.data.read(token_id)
         }
     }
 }

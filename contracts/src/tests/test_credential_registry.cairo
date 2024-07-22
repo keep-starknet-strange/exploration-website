@@ -4,6 +4,7 @@ use kudos::credential_registry::component::{
 use kudos::credential_registry::interface::{
     ICredentialRegistry, ICredentialRegistryDispatcher, ICredentialRegistryDispatcherTrait
 };
+use kudos::tests::common::setup_account;
 use kudos::tests::mocks::account_mock::AccountMock;
 use kudos::tests::mocks::credential_registry_mock::CredentialRegistryMock;
 use kudos::tests::utils::constants::{
@@ -25,12 +26,6 @@ fn setup() -> (ICredentialRegistryDispatcher, ContractAddress) {
     let credential_registry_mock = declare("CredentialRegistryMock");
     let (contract_address, _) = credential_registry_mock.unwrap().deploy(@array![]).unwrap();
     (ICredentialRegistryDispatcher { contract_address }, contract_address)
-}
-
-fn setup_account() -> ContractAddress {
-    let account_mock = declare("AccountMock").unwrap();
-    let (contract_address, _) = account_mock.deploy(@array![PUBLIC_KEY]).unwrap();
-    contract_address
 }
 
 fn setup_component() -> (ComponentState, ContractAddress) {

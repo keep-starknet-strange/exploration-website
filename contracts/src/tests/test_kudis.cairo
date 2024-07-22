@@ -1,35 +1,22 @@
-use core::array::ArrayTrait;
-use kudos::nft::interface::{IKudisNFT, IKudisNFTDispatcher, IKudisNFTDispatcherTrait};
-use kudos::tests::common::setup_kudos;
-use kudos::tests::utils::constants::{KUDOS, KUDIS, RECEIVER};
+use kudos::interface::{IKudosDispatcher, IKudosDispatcherTrait};
+use kudos::nft::interface::{
+    IKudisNFT, IKudisNFTMinterDispatcher, IKudisNFTMinterDispatcherTrait, IKudisNFTDispatcher,
+    IKudisNFTDispatcherTrait
+};
+use kudos::nft::kudis::{KudisNFT, KudisNFT::InternalImpl};
+use kudos::tests::common::{setup_kudos, setup_kudis};
+use kudos::tests::utils::constants::{KUDOS, RECEIVER};
 use openzeppelin::token::erc721::interface::{
     IERC721MetadataDispatcher, IERC721MetadataDispatcherTrait
 };
-use openzeppelin::utils::serde::SerializedAppend;
-use snforge_std::{declare, ContractClassTrait, start_cheat_caller_address};
-use starknet::{ContractAddress, ClassHash, testing::cheatcode, SyscallResult};
+use snforge_std::cheatcodes::events::EventSpyTrait;
+use snforge_std::{
+    declare, ContractClassTrait, start_cheat_caller_address, spy_events, EventSpyAssertionsTrait
+};
+use starknet::{ContractAddress, ClassHash, testing::cheatcode, SyscallResult, get_contract_address};
 
-fn setup_kudis() -> ContractAddress {
-    let mut calldata = array![];
-    let init_colors = array![
-        0x000000,
-        0xFFFFFF,
-        0xFF0000,
-        0x00FF00,
-        0x0000FF,
-        0xFFFF00,
-        0xFF00FF,
-        0x00FFFF,
-        0x880000,
-        0x008800,
-        0x000088,
-        0x888800
-    ];
-    calldata.append_serde(init_colors);
-
-    let kudos_nft_class = declare("KudisNFT").unwrap();
-    let (kudos_addr, _) = kudos_nft_class.deploy_at(@calldata, KUDIS()).unwrap();
-    kudos_addr
+fn CONTRACT_STATE() -> KudisNFT::ContractState {
+    KudisNFT::contract_state_for_testing()
 }
 
 #[test]
@@ -41,9 +28,21 @@ fn test_nft_metadata() {
 }
 
 #[test]
+fn test_nft_mint() {
+    let mut kudis_state = CONTRACT_STATE();
+
+    kudis_state._mint(RECEIVER());
+
+    assert!(kudis_state.get_total() == 1, "Should be one nft");
+
+    let testy = kudis_state.get_data(1);
+    println!("DATA: {:?}", testy.inner);
+}
+
+#[test]
 #[should_panic(expected: ('Kudos contract addr unset',))]
 fn test_nft_mint_no_kudos_address() {
-    let kudis_nft = IKudisNFTDispatcher { contract_address: setup_kudis() };
+    let kudis_nft = IKudisNFTMinterDispatcher { contract_address: setup_kudis() };
 
     kudis_nft.mint(RECEIVER());
 }
@@ -52,9 +51,8 @@ fn test_nft_mint_no_kudos_address() {
 #[should_panic(expected: ('Caller not Kudos contract',))]
 fn test_nft_mint_kudos_address_not_caller() {
     let kudis_nft = IKudisNFTDispatcher { contract_address: setup_kudis() };
-
     kudis_nft.set_kudos_address(KUDOS());
-    kudis_nft.mint(RECEIVER());
+    IKudisNFTMinterDispatcher { contract_address: kudis_nft.contract_address }.mint(RECEIVER());
 }
 
 #[test]
@@ -67,5 +65,5 @@ fn test_nft_mint_unregistered() {
     kudis_nft.set_kudos_address(kudos_address);
 
     start_cheat_caller_address(kudis_address, kudos_address);
-    kudis_nft.mint(RECEIVER());
+    IKudisNFTMinterDispatcher { contract_address: kudis_nft.contract_address }.mint(RECEIVER());
 }
