@@ -1,5 +1,6 @@
 import { CheckCircleIcon, WalletIcon } from '@heroicons/react/24/outline'
 import { useAccount, useConnect } from '@starknet-react/core'
+import Image from 'next/image'
 
 export function LinkWallet() {
   const { connect, connectors } = useConnect()
@@ -38,10 +39,12 @@ export function LinkWallet() {
                 type="button"
                 className="rounded-md bg-emerald-50 px-4 py-2.5 shadow-sm hover:bg-slate-200 flex items-center"
               >
-                <img
+                <Image
                   src={connector.icon.light}
                   alt="connector-icon"
                   className="w-8"
+                  width={8}
+                  height={8}
                 />
                 <div className="ml-2 text-md font-normal text-cyan-600">
                   {connector.name}

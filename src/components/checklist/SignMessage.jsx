@@ -30,9 +30,9 @@ const testData = {
 }
 
 export function SignMessage({ userData }) {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState('')
   const { data, isSuccess, isPending, signTypedData, isError } =
-    useSignTypedData(testData);
+    useSignTypedData(testData)
 
   return (
     <>

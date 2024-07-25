@@ -21,12 +21,13 @@ export function ProfileMenu({ data }) {
           src={data.image}
           alt="profile-icon"
         />
+        {console.log('IMAGE URL: ', data.image)}
         <ChevronDownIcon
           className="h-4 w-4 text-slate-300"
           aria-hidden="true"
         />
       </PopoverButton>
-      <PopoverPanel  
+      <PopoverPanel
         transition
         className="absolute left-0 z-10 mt-2 flex w-scree -translate-x-1/2 px-4 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
       >
