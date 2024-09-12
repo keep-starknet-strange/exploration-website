@@ -75,8 +75,8 @@
     "name": "Vault",
     "category": "Infrastructure",
     "description": "Empower Your Assets, ReDeFine Control",
-    "contribs": 9,
-    "totalPaidK": 100,
+    "contribs": 10,
+    "totalPaidK": 10,
     "imageUrl": "/images/logos/projects/vaultLogoSm.png",
     "url": "https://github.com/keep-starknet-strange/vault"
   },
@@ -84,8 +84,8 @@
     "name": "Alexandria",
     "category": "Tooling",
     "description": "Extended Cairo Standard Library",
-    "contribs": 1,
-    "totalPaidK": 100,
+    "contribs": 57,
+    "totalPaidK": 28,
     "imageUrl": "/images/logos/projects/alexandriaLogoSm.png",
     "url": "https://github.com/keep-starknet-strange/alexandria"
   },
@@ -93,7 +93,7 @@
     "name": "Satoru",
     "category": "DeFi",
     "description": "Synthetics platform for Starknet, inspired by GMX v2",
-    "contribs": 1,
+    "contribs": 50,
     "totalPaidK": 100,
     "imageUrl": "/images/logos/projects/satoruLogoSm.png",
     "url": "https://github.com/keep-starknet-strange/satoru"
@@ -102,8 +102,8 @@
     "name": "art/peace",
     "category": "Fun",
     "description": "Competitive art canvas on Starknet",
-    "contribs": 1,
-    "totalPaidK": 100,
+    "contribs": 92,
+    "totalPaidK": 11,
     "imageUrl": "/images/logos/projects/artPeaceLogoSm.png",
     "url": "https://github.com/keep-starknet-strange/art-peace"
   },
@@ -111,7 +111,7 @@
     "name": "Blobstream-sn",
     "category": "Infrastructure",
     "description": "Celestia -> Starknet bridge",
-    "contribs": 14,
+    "contribs": 26,
     "totalPaidK": 100,
     "imageUrl": "/images/logos/projects/blobstreamStarknetSm.png",
     "url": "https://github.com/keep-starknet-strange/blobstream-starknet"
@@ -120,7 +120,7 @@
     "name": "Poseidon-rs",
     "category": "Tooling",
     "description": "Poseidon Rust library",
-    "contribs": 5,
+    "contribs": 6,
     "totalPaidK": 100,
     "imageUrl": "/images/logos/projects/poseidonRsLogoSm.png",
     "url": "https://github.com/keep-starknet-strange/poseidon-rs"
@@ -129,7 +129,7 @@
     "name": "Garaga",
     "category": "Tooling",
     "description": "State-of-the-art Elliptic Curve operations and SNARKS verification",
-    "contribs": 11,
+    "contribs": 17,
     "totalPaidK": 100,
     "imageUrl": "/images/logos/projects/garagaLogoSm.png",
     "url": "https://github.com/keep-starknet-strange/garaga"
@@ -147,7 +147,7 @@
     "name": "Joyboy",
     "category": "Infrastructure",
     "description": "Decentralized social built with Nostr and powered by Starknet account abstraction",
-    "contribs": 25,
+    "contribs": 45,
     "totalPaidK": 10,
     "imageUrl": "/images/logos/projects/joyboyLogoSm.png",
     "url": "https://github.com/keep-starknet-strange/joyboy"
@@ -174,7 +174,7 @@
     "name": "Ziggy Starkdust",
     "category": "Tooling",
     "description": "Cairo VM in Zig",
-    "contribs": 24,
+    "contribs": 25,
     "totalPaidK": 10,
     "imageUrl": "/images/logos/projects/ziggyStardustLogoSm.png",
     "url": "https://github.com/keep-starknet-strange/ziggy-starkdust"
@@ -183,7 +183,7 @@
     "name": "Unruggable.meme",
     "category": "DeFi",
     "description": "A framework for building safer memecoins",
-    "contribs": 38,
+    "contribs": 42,
     "totalPaidK": 10,
     "imageUrl": "/images/logos/projects/unruggableMemeLogoSm.png",
     "url": "https://github.com/keep-starknet-strange/unruggable.meme"
