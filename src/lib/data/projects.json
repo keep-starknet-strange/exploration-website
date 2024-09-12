@@ -1,5 +1,50 @@
 [
   {
+    "name": "BtcZee",
+    "category": "Infrastructure",
+    "description": "Bitcoin protocol implementation in Zig",
+    "contribs": 6,
+    "totalPaidK": 1,
+    "imageUrl": "/images/logos/projects/kakarotLogoSm.png",
+    "url": "https://github.com/zig-bitcoin/btczee"
+  },
+  {
+    "name": "zkRamp",
+    "category": "Infrastructure",
+    "description": "A trustless P2P fiat onramp powered by ZK proofs on Starknet",
+    "contribs": 12,
+    "totalPaidK": 5,
+    "imageUrl": "/images/logos/projects/kakarotLogoSm.png",
+    "url": "https://github.com/keep-starknet-strange/zkramp"
+  },
+  {
+    "name": "Raito",
+    "category": "Infrastructure",
+    "description": "Bitcoin Client in Cairo",
+    "contribs": 22,
+    "totalPaidK": 100,
+    "imageUrl": "/images/logos/projects/kakarotLogoSm.png",
+    "url": "https://github.com/keep-starknet-strange/raito"
+  },
+  {
+    "name": "Shinigami",
+    "category": "Infrastructure",
+    "description": "Bitcoin Script VM in Cairo",
+    "contribs": 50,
+    "totalPaidK": 4,
+    "imageUrl": "/images/logos/projects/kakarotLogoSm.png",
+    "url": "https://github.com/keep-starknet-strange/shinigami"
+  },
+  {
+    "name": "Coconut",
+    "category": "Infrastructure",
+    "description": "Cashu wallet and mint in Zig",
+    "contribs": 2,
+    "totalPaidK": 2,
+    "imageUrl": "/images/logos/projects/kakarotLogoSm.png",
+    "url": "https://github.com/zig-bitcoin/coconut"
+  },
+  {
     "name": "Kakarot",
     "category": "Infrastructure",
     "description": "zkEVM written in Cairo",
