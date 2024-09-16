@@ -5,7 +5,7 @@
     "description": "Bitcoin protocol implementation in Zig",
     "contribs": 6,
     "totalPaidK": 1,
-    "imageUrl": "/images/logos/projects/btczeeLogo.png",
+    "imageUrl": "/images/logos/projects/BtcZeeLogoWhite.png",
     "url": "https://github.com/zig-bitcoin/btczee"
   },
   {
@@ -14,7 +14,7 @@
     "description": "A trustless P2P fiat onramp powered by ZK proofs on Starknet",
     "contribs": 12,
     "totalPaidK": 5,
-    "imageUrl": "/images/logos/projects/zkRampLogo.png",
+    "imageUrl": "/images/logos/projects/zkRampLogoWhite.png",
     "url": "https://github.com/keep-starknet-strange/zkramp"
   },
   {
