@@ -57,7 +57,7 @@ export function Profile({ userData }) {
       setActiveStep(activeStep + 1)
     }
   }
-
+  
   return (
     <Container className="relative mt-10 sm:mt-24">
       <div className="inline-flex px-10">
