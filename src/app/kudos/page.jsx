@@ -1,7 +1,7 @@
 'use client'
 
+import { KudosApp } from '@/components/KudosApp'
 import { StarknetProvider } from '@/components/StarknetProvider'
-import { Profile } from '@/components/Profile'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
@@ -14,6 +14,10 @@ export default function Home() {
       router.push('/')
     },
   })
-  
-    return <StarknetProvider>{status === 'authenticated' && <Profile userData={data.user} />}</StarknetProvider>
+
+  return (
+    <StarknetProvider>
+      {status === 'authenticated' && <KudosApp userData={data.user} />}
+    </StarknetProvider>
+  )
 }
