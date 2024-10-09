@@ -1,4 +1,3 @@
-import { Textarea } from '@headlessui/react'
 import { CheckCircleIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import { useContract, useSendTransaction, useTransactionReceipt, useAccount, useNonceForAddress, useConnect } from '@starknet-react/core'
 import { useState } from 'react'
@@ -63,7 +62,7 @@ export function RegisterSwEmployee({ userData }) {
           onClick={handleClick}
           className="rounded-md bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-600 shadow-sm hover:bg-emerald-100"
         >
-          Sign
+          Mint
         </button>
         {isPending && <p>Waiting for wallet...</p>}
         {isSuccess && (

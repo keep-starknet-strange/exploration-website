@@ -8,6 +8,7 @@ import { CheckIcon } from '@heroicons/react/20/solid'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useAccount } from '@starknet-react/core'
 import { useState } from 'react'
+import { useEffect } from 'react'
 
 // status: 'complete' | 'current' | 'upcoming'
 const steps = [
@@ -19,28 +20,11 @@ const steps = [
   },
   {
     name: 'Register',
-    description: 'To SSO account',
+    description: 'Mint ERC20 Token',
     comp: RegisterSwEmployee,
     status: 'upcoming',
   },
-  {
-    name: 'Sign Message',
-    description: 'Attest to credentials',
-    comp: SignMessage,
-    status: 'upcoming',
-  },
-  {
-    name: 'Mint NFT',
-    description: 'Collectible identity',
-    comp: MintNFT,
-    status: 'upcoming',
-  },
-  {
-    name: 'Kudos',
-    description: 'Give teammate kudos',
-    comp: Kudos,
-    status: 'upcoming',
-  },
+
 ]
 
 function classNames(...classes) {
@@ -52,6 +36,27 @@ export function KudosApp({ userData }) {
   const [activeStep, setActiveStep] = useState(
     steps.findIndex((x) => x.status === 'current'),
   )
+  const [stepsState, setStepsState] = useState(steps)
+
+  useEffect(() => {
+    if (status === 'connected') {
+      markStepComplete()
+    }
+  }, [status])
+
+  function markStepComplete() {
+    setStepsState((prevSteps) => {
+      const newSteps = [...prevSteps]
+      if (activeStep < newSteps.length) {
+        newSteps[activeStep].status = 'complete'
+      }
+      if (activeStep + 1 < newSteps.length) {
+        newSteps[activeStep + 1].status = 'current'
+      }
+      return newSteps
+    })
+  }
+
 
   function moveBackward() {
     if (activeStep !== 0) {
