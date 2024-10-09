@@ -46,9 +46,6 @@ export function RegisterSwEmployee({ userData }) {
     console.log("Is Error:", isError);
     console.log("Error:", receiptError);
     console.log("tran isPending:", isPending)
-    if (userData) {
-      debugger
-    }
 
   return (
     <>
