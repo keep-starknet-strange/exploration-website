@@ -45,10 +45,27 @@ export const abi = [
         inputs: [
             {
                 name: 'address',
-                type: 'starknet::ContractAddress'
-            }
-        ]
-      },    
+                type: 'core::starknet::contract_address::ContractAddress'
+            },
+        ],
+        outputs: [],
+      },
+      {
+        type: 'function',
+        name: 'is_registered',
+        state_mutability: 'view',
+        inputs: [
+          {
+            name: 'address',
+            type: 'core::starknet::contract_address::ContractAddress'
+          }
+        ],
+        outputs: [
+          {
+            type: 'bool'
+          }
+        ],
+      },
     ],
   },
 ]

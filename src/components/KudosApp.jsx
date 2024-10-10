@@ -1,8 +1,5 @@
 import { RegisterSwEmployee } from './kudos/RegisterSwEmployee'
-import { Kudos } from '@/components/checklist/Kudos'
 import { LinkWallet } from '@/components/checklist/LinkWallet'
-import { MintNFT } from '@/components/checklist/MintNFT'
-import { SignMessage } from '@/components/checklist/SignMessage'
 import { Container } from '@/components/Container'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
@@ -55,6 +52,8 @@ export function KudosApp({ userData }) {
       }
       return newSteps
     })
+
+    moveForward()
   }
 
 
@@ -201,7 +200,7 @@ export function KudosApp({ userData }) {
                   <div className="divide-y divide-slate-500 overflow-hidden rounded-lg bg-slate-700 shadow">
                     <div className="px-4 py-5 sm:p-6">
                       {status === 'connected' ? (
-                        <step.comp userData={userData} />
+                        <step.comp userData={userData} markStepComplete={markStepComplete} />
                       ) : (
                         <LinkWallet userData={userData} />
                       )}
