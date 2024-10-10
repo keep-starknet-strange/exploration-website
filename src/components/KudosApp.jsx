@@ -21,7 +21,6 @@ const steps = [
     comp: RegisterSwEmployee,
     status: 'upcoming',
   },
-
 ]
 
 function classNames(...classes) {
@@ -55,7 +54,6 @@ export function KudosApp({ userData }) {
 
     moveForward()
   }
-
 
   function moveBackward() {
     if (activeStep !== 0) {
@@ -200,7 +198,10 @@ export function KudosApp({ userData }) {
                   <div className="divide-y divide-slate-500 overflow-hidden rounded-lg bg-slate-700 shadow">
                     <div className="px-4 py-5 sm:p-6">
                       {status === 'connected' ? (
-                        <step.comp userData={userData} markStepComplete={markStepComplete} />
+                        <step.comp
+                          userData={userData}
+                          markStepComplete={markStepComplete}
+                        />
                       ) : (
                         <LinkWallet userData={userData} />
                       )}

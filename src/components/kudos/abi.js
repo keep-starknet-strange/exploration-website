@@ -43,10 +43,10 @@ export const abi = [
         name: 'get_total_given',
         state_mutability: 'view',
         inputs: [
-            {
-                name: 'address',
-                type: 'core::starknet::contract_address::ContractAddress'
-            },
+          {
+            name: 'address',
+            type: 'core::starknet::contract_address::ContractAddress',
+          },
         ],
         outputs: [],
       },
@@ -57,13 +57,13 @@ export const abi = [
         inputs: [
           {
             name: 'address',
-            type: 'core::starknet::contract_address::ContractAddress'
-          }
+            type: 'core::starknet::contract_address::ContractAddress',
+          },
         ],
         outputs: [
           {
-            type: 'bool'
-          }
+            type: 'bool',
+          },
         ],
       },
       {
@@ -73,13 +73,13 @@ export const abi = [
         inputs: [
           {
             name: 'hash',
-            type: 'core::felt252'
-          }
+            type: 'core::felt252',
+          },
         ],
         outputs: [
           {
-            type: 'core::starknet::contract_address::ContractAddress'
-          }
+            type: 'core::starknet::contract_address::ContractAddress',
+          },
         ],
       },
     ],

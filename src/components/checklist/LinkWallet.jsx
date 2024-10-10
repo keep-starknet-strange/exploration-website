@@ -5,7 +5,7 @@ import Image from 'next/image'
 export function LinkWallet() {
   const { connect, connectors } = useConnect()
   const { address, status } = useAccount()
-  
+
   return (
     <>
       <WalletIcon className="h-14 w-14 mx-auto text-slate-50" />
