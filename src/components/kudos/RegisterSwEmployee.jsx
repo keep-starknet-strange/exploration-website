@@ -1,30 +1,39 @@
 import { CheckCircleIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import { useSendTransaction, useTransactionReceipt, useAccount, useReadContract } from '@starknet-react/core'
-import { useEffect, useMemo } from 'react'
-
+import { uint256ToBN } from 'starknet';
 import { abi } from '@/components/kudos/abi'
 
 const contractAddress = '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
 
 export function RegisterSwEmployee({ userData, markStepComplete }) {
-  const { account } = useAccount();
-  const { data: isRegisteredData, status: isRegisteredStatus, error: isRegisteredError } = useReadContract({
-    abi: abi,
-    functionName: "is_registered",
-    address: contractAddress,
-    args: [ account?.address ],
-  });
-  const isRegistered = (isRegisteredData == 1)
-
   // account 0x026E4c92498D782aDdD4eaed96a32c7330cc91cDE89EA07F9fD434dbC3b87106
   // Pedersen Hash: {name: 'Zachary Williams', email: 'zachary@starkware.co', salt: 42}
   // const credentialHash = '0x6864e89d7554273f7df66ba8c594d15e2ef7d5b2e77a7716394a3eea4afc4c8'
 
   // account salt1 0x00f1A9DD0B62459C1E6148783a6F05fB706CDF84ADe0662d8F4dD64EB27b2B35
   // Pedersen Hash: {name: 'Zachary Williams', email: 'zachary@starkware.co', salt: 1}'
-  // credentialHash =532931342016754
+  // credentialHash = 532931342016754
   // account 5329313420167544
   const credentialHash = '5329313420167544';
+  const { account } = useAccount();
+  const { data: registeredWalletData, status: registeredWalletStatus, error: registeredWalletError } = useReadContract({
+    abi: abi,
+    functionName: "get_credential_address",
+    address: contractAddress,
+    args: [ credentialHash ],
+  });
+  const { data: isRegisteredData, status: isRegisteredStatus, error: isRegisteredError } = useReadContract({
+    abi: abi,
+    functionName: "is_registered",
+    address: contractAddress,
+    args: [ account?.address ],
+  });
+
+  const isRegistered = (isRegisteredData == 1)
+  const registeredWalletDataHexValue =  `0x${BigInt(registeredWalletData || "").toString(16)}`
+  const correctWalletAndRegistered = (isRegistered && registeredWalletDataHexValue == account?.address)
+  ? true : false
+    
 
     const registerEmployeeCalls = [
       {
@@ -56,18 +65,21 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
     console.log("Error:", receiptError);
     console.log("tran isPending:", isPending)
     console.log("sendTransactionStatus", sendTransactionStatus)
+debugger
 
   return (
     <>
-      { isRegistered ? <CheckCircleIcon className="h-14 w-14 mx-auto text-emerald-600" /> :
+      { correctWalletAndRegistered ? <CheckCircleIcon className="h-14 w-14 mx-auto text-emerald-600" /> :
       <PencilSquareIcon className="h-14 w-14 mx-auto text-slate-50" />
       }
       <div className="text-md font-light text-slate-50 mt-12 px-8">
         {isRegistered ? "You registered your account to mint your Kudos tokens!" : 
-        "Register your account to mint your Kudos tokens"
-      }
+        "Register your account to mint your Kudos tokens"}
+        <br/>{!correctWalletAndRegistered && isRegistered &&
+        `You used a different wallet to register. The correct wallet address is ${registeredWalletDataHexValue}`}
+
       <br />
-        <br />
+      <br />
         Minting ERC-20 tokens on StarkNet creates new tokens for use in decentralized applications and transactions.
       </div>
       <div className="grid gap-6 my-6 md:grid-cols-2">
@@ -87,6 +99,7 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
             <span className="inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400 ring-1 ring-inset ring-green-500/20">
               Success: r({data.transaction_hash.slice(0, 5)}) s(
               {data.actual_fee.amount.slice(0, 5)})
+              {markStepComplete()}
             </span>
           </div>
         )}

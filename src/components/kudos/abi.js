@@ -66,6 +66,22 @@ export const abi = [
           }
         ],
       },
+      {
+        type: 'function',
+        name: 'get_credential_address',
+        state_mutability: 'view',
+        inputs: [
+          {
+            name: 'hash',
+            type: 'core::felt252'
+          }
+        ],
+        outputs: [
+          {
+            type: 'core::starknet::contract_address::ContractAddress'
+          }
+        ],
+      },
     ],
   },
 ]
