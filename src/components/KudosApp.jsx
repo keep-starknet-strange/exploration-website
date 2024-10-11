@@ -1,3 +1,4 @@
+import { GiveKudos } from './kudos/GiveKudos'
 import { RegisterSwEmployee } from './kudos/RegisterSwEmployee'
 import { LinkWallet } from '@/components/checklist/LinkWallet'
 import { Container } from '@/components/Container'
@@ -19,6 +20,12 @@ const steps = [
     name: 'Register',
     description: 'Mint ERC20 Token',
     comp: RegisterSwEmployee,
+    status: 'upcoming',
+  },
+  {
+    name: 'Give Kudos',
+    description: 'Send some tokens to a teammate',
+    comp: GiveKudos,
     status: 'upcoming',
   },
 ]
