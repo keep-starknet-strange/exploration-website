@@ -7,6 +7,7 @@ import { CheckIcon } from '@heroicons/react/20/solid'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useAccount } from '@starknet-react/core'
 import { useState } from 'react'
+import Image from 'next/image'
 
 // status: 'complete' | 'current' | 'upcoming'
 const steps = [
@@ -61,7 +62,7 @@ export function Profile({ userData }) {
   return (
     <Container className="relative mt-10 sm:mt-24">
       <div className="inline-flex px-10">
-        <img
+        <Image
           className="inline-block h-24 w-24 rounded-full"
           src={userData.image}
           alt="usrProf"

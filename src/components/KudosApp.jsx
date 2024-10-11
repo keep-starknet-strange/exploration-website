@@ -6,6 +6,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useAccount } from '@starknet-react/core'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import Image from 'next/image'
+import { useCallback } from 'react/cjs/react.production.min'
 
 // status: 'complete' | 'current' | 'upcoming'
 const steps = [
@@ -34,11 +36,13 @@ export function KudosApp({ userData }) {
   )
   const [stepsState, setStepsState] = useState(steps)
 
+  const markStepCompleteCallback = useCallback(markStepComplete, [activeStep, moveForward]);
   useEffect(() => {
     if (status === 'connected') {
-      markStepComplete()
+      markStepCompleteCallback()
     }
-  }, [status])
+  }, [status, markStepCompleteCallback])
+
 
   function markStepComplete() {
     setStepsState((prevSteps) => {
@@ -54,23 +58,22 @@ export function KudosApp({ userData }) {
 
     moveForward()
   }
-
   function moveBackward() {
     if (activeStep !== 0) {
       setActiveStep(activeStep - 1)
     }
   }
-
-  function moveForward() {
+  
+  const moveForward = useCallback(() => {
     if (activeStep !== steps.length - 1) {
-      setActiveStep(activeStep + 1)
+      setActiveStep((prevStep) => prevStep + 1); // Update state with a functional update
     }
-  }
+  }, [activeStep]);
 
   return (
     <Container className="relative mt-10 sm:mt-24">
       <div className="inline-flex px-10">
-        <img
+        <Image
           className="inline-block h-24 w-24 rounded-full"
           src={userData.image}
           alt="usrProf"

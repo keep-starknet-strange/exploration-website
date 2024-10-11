@@ -6,7 +6,7 @@ import {
   useSendTransaction,
   useTransactionReceipt,
 } from '@starknet-react/core'
-import { uint256ToBN } from 'starknet'
+import { useEffect } from 'react'
 
 const contractAddress =
   '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
@@ -20,7 +20,11 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
   // Pedersen Hash: {name: 'Zachary Williams', email: 'zachary@starkware.co', salt: 1}'
   // credentialHash = 532931342016754
   // account 5329313420167544
-  const credentialHash = '5329313420167544'
+  //  const credentialHash = '5329313420167544'
+
+  // account 6
+  // {name: 'Zachary Williams', email: 'zachary@starkware.co', salt: 2}
+  const credentialHash = "0x5946aae24e5ce625970214fb7a40775c02984b34dfa295fe48ec04790d16d7f"
   const { account } = useAccount()
   const {
     data: registeredWalletData,
@@ -74,6 +78,13 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
     hash: writeData?.transaction_hash,
     watch: true,
   })
+
+  useEffect(() => {
+    if (isSuccess || correctWalletAndRegistered) {
+      markStepComplete();
+      
+    }
+  }, [isSuccess, correctWalletAndRegistered, markStepComplete]);
   return (
     <>
       {correctWalletAndRegistered ? (
@@ -110,7 +121,7 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
             <div className="mt-10">
               <span className="inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400 ring-1 ring-inset ring-green-500/20">
                 Success: r({data.transaction_hash.slice(0, 5)}) s(
-                {data.actual_fee.amount.slice(0, 5)}){markStepComplete()}
+                {data.actual_fee.amount.slice(0, 5)}){markStepComplete}
               </span>
             </div>
           ))}

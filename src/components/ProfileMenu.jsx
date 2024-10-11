@@ -5,7 +5,7 @@ import {
 } from '@heroicons/react/20/solid'
 import { HeartIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { signOut } from 'next-auth/react'
-import Link from 'next/link'
+import { Link, Image } from 'next/link'
 
 const options = [
   { name: 'Profile', href: '/profile', icon: UserCircleIcon },
@@ -16,7 +16,7 @@ export function ProfileMenu({ data }) {
   return (
     <Popover className="relative" transition>
       <PopoverButton className="inline-flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-        <img
+        <Image
           className="inline-block h-6 w-6 rounded-full"
           src={data.image}
           alt="profile-icon"
