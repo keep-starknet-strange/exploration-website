@@ -21,6 +21,8 @@ export function ProfileMenu({ data }) {
           className="inline-block h-6 w-6 rounded-full"
           src={data.image}
           alt="profile-icon"
+          width={24}
+          height={24}
         />
         {console.log('IMAGE URL: ', data.image)}
         <ChevronDownIcon

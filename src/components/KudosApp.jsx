@@ -34,28 +34,7 @@ export function KudosApp({ userData }) {
   )
   const [stepsState, setStepsState] = useState(steps)
 
-  const markStepCompleteCallback = useCallback(markStepComplete, [activeStep, moveForward]);
-  useEffect(() => {
-    if (status === 'connected') {
-      markStepCompleteCallback()
-    }
-  }, [status, markStepCompleteCallback])
-
-
-  function markStepComplete() {
-    setStepsState((prevSteps) => {
-      const newSteps = [...prevSteps]
-      if (activeStep < newSteps.length) {
-        newSteps[activeStep].status = 'complete'
-      }
-      if (activeStep + 1 < newSteps.length) {
-        newSteps[activeStep + 1].status = 'current'
-      }
-      return newSteps
-    })
-
-    moveForward()
-  }
+  
   function moveBackward() {
     if (activeStep !== 0) {
       setActiveStep(activeStep - 1)
@@ -67,6 +46,26 @@ export function KudosApp({ userData }) {
       setActiveStep((prevStep) => prevStep + 1); // Update state with a functional update
     }
   }, [activeStep]);
+  
+  const markStepComplete = useCallback(() => {
+    setStepsState((prevSteps) => {
+      const newSteps = [...prevSteps]
+      if (activeStep < newSteps.length) {
+        newSteps[activeStep].status = 'complete'
+      }
+      if (activeStep + 1 < newSteps.length) {
+        newSteps[activeStep + 1].status = 'current'
+      }
+      return newSteps
+    });
+    moveForward();
+  }, [activeStep, moveForward]);
+  
+  useEffect(() => {
+    if (status === 'connected') {
+      markStepComplete();
+    }
+  }, [status, markStepComplete]);
 
   return (
     <Container className="relative mt-10 sm:mt-24">
@@ -75,6 +74,8 @@ export function KudosApp({ userData }) {
           className="inline-block h-24 w-24 rounded-full"
           src={userData.image}
           alt="usrProf"
+          width={96}
+          height={96}
         />
         <div className="ml-14 text-4xl font-bold tracking-tighter text-transparent bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text">
           {userData.name}

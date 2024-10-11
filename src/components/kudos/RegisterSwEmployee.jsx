@@ -82,9 +82,9 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
   useEffect(() => {
     if (isSuccess || correctWalletAndRegistered) {
       markStepComplete();
-      
     }
   }, [isSuccess, correctWalletAndRegistered, markStepComplete]);
+  
   return (
     <>
       {correctWalletAndRegistered ? (
