@@ -5,7 +5,8 @@ import {
 } from '@heroicons/react/20/solid'
 import { HeartIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { signOut } from 'next-auth/react'
-import { Link, Image } from 'next/link'
+import Link from 'next/link'
+import Image from 'next/image'
 
 const options = [
   { name: 'Profile', href: '/profile', icon: UserCircleIcon },

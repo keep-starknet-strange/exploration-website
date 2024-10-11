@@ -4,10 +4,8 @@ import { Container } from '@/components/Container'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useAccount } from '@starknet-react/core'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Image from 'next/image'
-import { useCallback } from 'react/cjs/react.production.min'
 
 // status: 'complete' | 'current' | 'upcoming'
 const steps = [
