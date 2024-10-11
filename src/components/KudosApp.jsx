@@ -47,23 +47,22 @@ export function KudosApp({ userData }) {
     }
   }, [activeStep]);
   
-  const markStepComplete = useCallback(() => {
+  const markStepComplete = useCallback((stepIndex) => {
     setStepsState((prevSteps) => {
       const newSteps = [...prevSteps]
-      if (activeStep < newSteps.length) {
+      if (stepIndex < newSteps.length) {
         newSteps[activeStep].status = 'complete'
       }
-      if (activeStep + 1 < newSteps.length) {
+      if (stepIndex + 1 < newSteps.length) {
         newSteps[activeStep + 1].status = 'current'
       }
       return newSteps
     });
-    moveForward();
-  }, [activeStep, moveForward]);
+  }, [activeStep]);
   
   useEffect(() => {
-    if (status === 'connected') {
-      markStepComplete();
+    if (status === 'connected' && activeStep === 0) {
+      markStepComplete(0);
     }
   }, [status, markStepComplete]);
 
