@@ -21,7 +21,7 @@ export const abi = [
             type: 'core::felt252',
           },
           {
-            name: 'sender_credentials',
+            name: 'description',
             type: 'core::felt252',
           },
         ],
