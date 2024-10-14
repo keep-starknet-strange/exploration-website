@@ -2,14 +2,13 @@ import { abi } from '@/components/kudos/abi'
 import { Textarea } from '@headlessui/react'
 import { CheckCircleIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
-  useContract,
-  useNetwork,
   useReadContract,
   useSendTransaction,
   useTransactionReceipt,
 } from '@starknet-react/core'
 import { useState } from 'react'
 import { shortString } from 'starknet'
+import axios from 'axios'; 
 
 const contractAddress =
   '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
@@ -18,14 +17,54 @@ export function GiveKudos({ userData }) {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [amount, setAmount] = useState(0)
+  const [senderCredentialsHash, setSenderCredentialHash] = useState('');
+  const [receiverCredentialsHash, setReceiverCredentialsHash] = useState('');
+  
 
-  // {saltyBitch, name, email}
-  const senderCredentialsHash =
-    '0x1e7949ff32d60f61d5f08879a65974a17fcb9e85e4e13f1a8d2fe7ae11c0453'
+  // Fetching sender's credential hash
+  useEffect(() => {
+    const getSenderCredentialsHash = async () => {
+      const nameHex = shortString.encodeShortString(userData.name);
+      const emailHex = shortString.encodeShortString(userData.email);
+      
+      try {
+        const response = await axios.post('/api/pedersen-hash', {
+          nameHex,
+          emailHex,
+        });
+        setSenderCredentialsHash(response.data.hash);
+      } catch (error) {
+        console.error('Error fetching sender credential hash:', error);
+      }
+    };
 
-  //{saltyBitch, user.name, user.email}
-  const receiverCredentialsHash =
-    '0x6864e89d7554273f7df66ba8c594d15e2ef7d5b2e77a7716394a3eea4afc4c8'
+    if (userData.name && userData.email) {
+      getSenderCredentialsHash();
+    }
+  }, [userData.name, userData.email]);
+
+  // Fetch receiver's credential hash when name or email changes
+  useEffect(() => {
+    const getReceiverCredentialsHash = async () => {
+      const receiverNameHex = shortString.encodeShortString(name);
+      const receiverEmailHex = shortString.encodeShortString(email);
+      
+      try {
+        const response = await axios.post('/api/pedersen-hash', {
+          nameHex: receiverNameHex,
+          emailHex: receiverEmailHex,
+        });
+        setReceiverCredentialsHash(response.data.hash);
+      } catch (error) {
+        console.error('Error fetching receiver credential hash:', error);
+      }
+    };
+
+    if (name && email) {
+      getReceiverCredentialsHash();
+    }
+  }, [name, email]);
+
   const descriptionAsHex = shortString.encodeShortString(description)
   function splitU256(value) {
     const bigIntValue = BigInt(value)
@@ -64,8 +103,6 @@ export function GiveKudos({ userData }) {
     send: sendGiveKudos,
     data: giveKudosData,
     isPending,
-    error: writeError,
-    status: sendTransactionStatus,
   } = useSendTransaction({ calls: giveKudosCalls })
 
   const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`
