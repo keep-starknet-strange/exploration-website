@@ -6,8 +6,8 @@ import { Container } from '@/components/Container'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useAccount } from '@starknet-react/core'
-import { useState } from 'react'
 import Image from 'next/image'
+import { useState } from 'react'
 
 // status: 'complete' | 'current' | 'upcoming'
 const steps = [
@@ -67,7 +67,7 @@ export function Profile({ userData }) {
           src={userData.image}
           alt="usrProf"
           width={96}
-          height={96}  
+          height={96}
         />
         <div className="ml-14 text-4xl font-bold tracking-tighter text-transparent bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text">
           {userData.name}

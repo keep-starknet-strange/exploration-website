@@ -5,8 +5,8 @@ import { Container } from '@/components/Container'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useAccount } from '@starknet-react/core'
-import { useState, useCallback, useEffect } from 'react'
 import Image from 'next/image'
+import { useCallback, useEffect, useState } from 'react'
 
 // status: 'complete' | 'current' | 'upcoming'
 const steps = [
@@ -41,37 +41,39 @@ export function KudosApp({ userData }) {
   )
   const [stepsState, setStepsState] = useState(steps)
 
-  
   function moveBackward() {
     if (activeStep !== 0) {
       setActiveStep(activeStep - 1)
     }
   }
-  
+
   const moveForward = useCallback(() => {
     if (activeStep !== steps.length - 1) {
-      setActiveStep((prevStep) => prevStep + 1); // Update state with a functional update
+      setActiveStep((prevStep) => prevStep + 1) // Update state with a functional update
     }
-  }, [activeStep]);
-  
-  const markStepComplete = useCallback((stepIndex) => {
-    setStepsState((prevSteps) => {
-      const newSteps = [...prevSteps]
-      if (stepIndex < newSteps.length) {
-        newSteps[activeStep].status = 'complete'
-      }
-      if (stepIndex + 1 < newSteps.length) {
-        newSteps[activeStep + 1].status = 'current'
-      }
-      return newSteps
-    });
-  }, [activeStep]);
-  
+  }, [activeStep])
+
+  const markStepComplete = useCallback(
+    (stepIndex) => {
+      setStepsState((prevSteps) => {
+        const newSteps = [...prevSteps]
+        if (stepIndex < newSteps.length) {
+          newSteps[activeStep].status = 'complete'
+        }
+        if (stepIndex + 1 < newSteps.length) {
+          newSteps[activeStep + 1].status = 'current'
+        }
+        return newSteps
+      })
+    },
+    [activeStep],
+  )
+
   useEffect(() => {
     if (status === 'connected' && activeStep === 0) {
-      markStepComplete(0);
+      markStepComplete(0)
     }
-  }, [status, markStepComplete]);
+  }, [status, activeStep, markStepComplete])
 
   return (
     <Container className="relative mt-10 sm:mt-24">

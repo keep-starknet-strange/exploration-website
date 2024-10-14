@@ -33,13 +33,14 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
   // account 8
   // const credentialHash = '0x7ca73ccbb690306bcd5c6d113d772e205c5f8c29ed521976f0d2cd367de7a6e'
 
-  //acount 9 
+  //acount 9
   // const credentialHash = '0x8c23961dbd729f72fec88e5dfea1cf9b5149c2689104498698e564f5dd8f99'
 
   // account 10
- const credentialHash = '0x1e7949ff32d60f61d5f08879a65974a17fcb9e85e4e13f1a8d2fe7ae11c0453'
+  const credentialHash =
+    '0x1e7949ff32d60f61d5f08879a65974a17fcb9e85e4e13f1a8d2fe7ae11c0453'
 
-  const { account } = useAccount();
+  const { account } = useAccount()
   const {
     data: registeredWalletData,
     status: registeredWalletStatus,
@@ -49,7 +50,7 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
     functionName: 'get_credential_address',
     address: contractAddress,
     args: [credentialHash],
-  });
+  })
 
   const {
     data: isRegisteredData,
@@ -60,15 +61,13 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
     functionName: 'is_registered',
     address: contractAddress,
     args: [account?.address],
-  });
+  })
 
   const walletIsRegistered = isRegisteredData == 1
   const registeredWalletDataHexValue = `0x${BigInt(registeredWalletData || '').toString(16)}`
-  const credentialIsRegistered = registeredWalletDataHexValue != "0x0"
+  const credentialIsRegistered = registeredWalletDataHexValue != '0x0'
   const correctWallet =
-    registeredWalletDataHexValue == account?.address
-      ? true
-      : false;
+    registeredWalletDataHexValue == account?.address ? true : false
 
   const registerEmployeeCalls = [
     {
@@ -76,7 +75,7 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
       entrypoint: 'register_sw_employee',
       calldata: [credentialHash],
     },
-  ];
+  ]
 
   const {
     send: sendRegisterSwEmployeeTransaction,
@@ -84,23 +83,23 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
     isPending,
     error: writeError,
     status: sendTransactionStatus,
-  } = useSendTransaction({ calls: registerEmployeeCalls });
+  } = useSendTransaction({ calls: registerEmployeeCalls })
 
   const handleClick = async (Event) => {
     Event.preventDefault()
     sendRegisterSwEmployeeTransaction()
-  };
+  }
 
   const { data, isSuccess } = useTransactionReceipt({
     hash: writeData?.transaction_hash,
     watch: true,
-  });
+  })
 
   useEffect(() => {
     if (isSuccess || correctWallet) {
-      markStepComplete(1);
+      markStepComplete(1)
     }
-  }, [isSuccess, correctWallet, markStepComplete]);
+  }, [isSuccess, correctWallet, markStepComplete])
 
   return (
     <>
@@ -114,10 +113,11 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
           ? 'You registered your account to mint your Kudos tokens!'
           : 'Register your account to mint your Kudos tokens'}
         <br />
-        {credentialIsRegistered && 
+        {credentialIsRegistered &&
           !correctWallet &&
           `You used a different wallet to register. The correct wallet address is ${registeredWalletDataHexValue}`}
-        {walletIsRegistered && !credentialIsRegistered &&
+        {walletIsRegistered &&
+          !credentialIsRegistered &&
           'This wallet is registered with another account'}
         <br />
         <br />
