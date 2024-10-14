@@ -1,14 +1,15 @@
 import { pedersen_from_hex } from 'pedersen-fast'
-
+const salt = 42
 export default function handler(req, res) {
-  const { nameHex, emailHex, salt } = req.body;
+  const { nameHex, emailHex } = req.body;
   
-  if (!nameHex || !emailHex || !salt) {
+  if (!nameHex || !emailHex) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   try {
-    const hash = pedersen_from_hex(nameHex, pedersen_from_hex(emailHex, salt));
+    const saltHex = `0x${BigInt(salt).toString(16)}`;
+    const hash = pedersen_from_hex(nameHex, pedersen_from_hex(emailHex, saltHex));
     return res.status(200).json({ hash });
   } catch (error) {
     return res.status(500).json({ error: 'Hashing failed' });

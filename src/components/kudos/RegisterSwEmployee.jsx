@@ -6,23 +6,31 @@ import {
   useSendTransaction,
   useTransactionReceipt,
 } from '@starknet-react/core'
-import { useEffect } from 'react'
-import { pedersen_from_hex } from 'pedersen-fast'
+import { useEffect, useState } from 'react'
 import { shortString } from 'starknet'
-
+import axios from 'axios'
 
 const contractAddress =
   '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
 
 export function RegisterSwEmployee({ userData, markStepComplete }) {
-  const credentialHash = useMemo(() => {
-    const nameHex = shortString.encodeShortString(userData.name)
-    const emailHex = shortString.encodeShortString(userData.email)
-    const salt = '0xsalty'
+  const [credentialHash, setCredentialHash] = useState(null);
+  
+  useEffect(() => {
+    const getCredentialHash = async () => {
+      const nameHex = shortString.encodeShortString(userData.name);
+      const emailHex = shortString.encodeShortString(userData.email);
+      
+      const response = await axios.post('/api/pedersen-hash', {
+        nameHex,
+        emailHex,
+      });
 
-    return pedersen_from_hex(nameHex, pedersen_from_hex(emailHex, salt))
-  }, [userData.name, userData.email, userData.salt])
+      setCredentialHash(response.data.hash);
+    };
 
+    getCredentialHash();
+  }, [userData.name, userData.email]);
 
   const { account } = useAccount();
   const {
