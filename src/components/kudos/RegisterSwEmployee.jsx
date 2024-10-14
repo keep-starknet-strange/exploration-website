@@ -6,15 +6,38 @@ import {
   useSendTransaction,
   useTransactionReceipt,
 } from '@starknet-react/core'
-import { useEffect } from 'react'
-import { pedersen_from_hex } from 'pedersen-fast'
+import { useEffect, useState } from 'react'
 import { shortString } from 'starknet'
+<<<<<<< HEAD
+=======
+import axios from 'axios'
+>>>>>>> e994617 (adds pedersen-hash api and implements it into component)
 
 const contractAddress =
   '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
 
 export function RegisterSwEmployee({ userData, markStepComplete }) {
   const [credentialHash, setCredentialHash] = useState(null);
+<<<<<<< HEAD
+=======
+  
+  useEffect(() => {
+    const getCredentialHash = async () => {
+      const nameHex = shortString.encodeShortString(userData.name);
+      const emailHex = shortString.encodeShortString(userData.email);
+      
+      const response = await axios.post('/api/pedersen-hash', {
+        nameHex,
+        emailHex,
+      });
+
+      setCredentialHash(response.data.hash);
+    };
+
+    getCredentialHash();
+  }, [userData.name, userData.email]);
+
+>>>>>>> e994617 (adds pedersen-hash api and implements it into component)
   const { account } = useAccount();
   const {
     data: registeredWalletData,
