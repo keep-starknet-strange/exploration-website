@@ -1,5 +1,5 @@
 import { abi } from '@/components/kudos/abi'
-import { Textarea } from '@headlessui/react'
+import { useCredentialHash } from '@/hooks/useCredentialHash';
 import { CheckCircleIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
   useReadContract,
@@ -8,36 +8,9 @@ import {
 } from '@starknet-react/core'
 import { useState } from 'react'
 import { shortString } from 'starknet'
-import axios from 'axios'; 
 
 const contractAddress =
   '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e';
-
-const useCredentialHash = (name, email) => {
-  const [credentialHash, setCredentialHash] = useState('');
-  useEffect(() => {
-    const getCredentialHash = async () => {
-      const nameHex = shortString.encodeShortString(name);
-      const emailHex = shortString.encodeShortString(email);
-
-      try {
-        const response = await axios.post('/api/pedersen-hash', {
-          nameHex,
-          emailHex,
-        });
-        setCredentialHash(response.data.hash);
-      } catch (error) {
-        console.error('Error fetching credential hash:', error);
-      }
-    };
-
-    if (name && email) {
-      getCredentialHash();
-    }
-  }, [name, email]);
-
-  return credentialHash;
-};
 
 const splitU256 = (value) => {
   const bigIntValue = BigInt(value);
@@ -182,7 +155,7 @@ export function GiveKudos({ userData }) {
           type="button"
           onClick={handleClick}
           disabled={
-            !receiverHasValidAddress && amount > 0 && description.length === 0
+            !receiverHasValidAddress || amount > 0 || description.length === 0
           }
           className="rounded-md bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-600 shadow-sm hover:bg-emerald-100 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
         >
