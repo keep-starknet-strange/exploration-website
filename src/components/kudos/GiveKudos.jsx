@@ -11,79 +11,61 @@ import { shortString } from 'starknet'
 import axios from 'axios'; 
 
 const contractAddress =
-  '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
-export function GiveKudos({ userData }) {
-  const [description, setDescription] = useState('')
-  const [email, setEmail] = useState('')
-  const [name, setName] = useState('')
-  const [amount, setAmount] = useState(0)
-  const [senderCredentialsHash, setSenderCredentialHash] = useState('');
-  const [receiverCredentialsHash, setReceiverCredentialsHash] = useState('');
-  
+  '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e';
 
-  // Fetching sender's credential hash
+const useCredentialHash = (name, email) => {
+  const [credentialHash, setCredentialHash] = useState('');
   useEffect(() => {
-    const getSenderCredentialsHash = async () => {
-      const nameHex = shortString.encodeShortString(userData.name);
-      const emailHex = shortString.encodeShortString(userData.email);
-      
+    const getCredentialHash = async () => {
+      const nameHex = shortString.encodeShortString(name);
+      const emailHex = shortString.encodeShortString(email);
+
       try {
         const response = await axios.post('/api/pedersen-hash', {
           nameHex,
           emailHex,
         });
-        setSenderCredentialsHash(response.data.hash);
+        setCredentialHash(response.data.hash);
       } catch (error) {
-        console.error('Error fetching sender credential hash:', error);
-      }
-    };
-
-    if (userData.name && userData.email) {
-      getSenderCredentialsHash();
-    }
-  }, [userData.name, userData.email]);
-
-  // Fetch receiver's credential hash when name or email changes
-  useEffect(() => {
-    const getReceiverCredentialsHash = async () => {
-      const receiverNameHex = shortString.encodeShortString(name);
-      const receiverEmailHex = shortString.encodeShortString(email);
-      
-      try {
-        const response = await axios.post('/api/pedersen-hash', {
-          nameHex: receiverNameHex,
-          emailHex: receiverEmailHex,
-        });
-        setReceiverCredentialsHash(response.data.hash);
-      } catch (error) {
-        console.error('Error fetching receiver credential hash:', error);
+        console.error('Error fetching credential hash:', error);
       }
     };
 
     if (name && email) {
-      getReceiverCredentialsHash();
+      getCredentialHash();
     }
   }, [name, email]);
 
-  const descriptionAsHex = shortString.encodeShortString(description)
-  function splitU256(value) {
-    const bigIntValue = BigInt(value)
-    const BigInt128 = BigInt(2) ** BigInt(128)
-    // Get the low part (lower 128 bits)
-    const low = bigIntValue % BigInt128
-    // Get the high part (upper 128 bits)
-    const high = bigIntValue / BigInt128
-    return { low: low.toString(), high: high.toString() }
-  }
+  return credentialHash;
+};
 
-  const amountU256 = splitU256(amount)
+const splitU256 = (value) => {
+  const bigIntValue = BigInt(value);
+  const BigInt128 = BigInt(2) ** BigInt(128);
+  return {
+    low: (bigIntValue % BigInt128).toString(),
+    high: (bigIntValue / BigInt128).toString(),
+  };
+};
+
+export function GiveKudos({ userData }) {
+  const [description, setDescription] = useState('');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [amount, setAmount] = useState(0);
+
+  const senderCredentialsHash = useCredentialHash(userData.name, userData.email);
+  const receiverCredentialsHash = useCredentialHash(name, email);
+  
+  const descriptionAsHex = shortString.encodeShortString(description);
+  const amountU256 = splitU256(amount);  
 
   const { data: receiverWalletData } = useReadContract({
     abi: abi,
     functionName: 'get_credential_address',
     address: contractAddress,
     args: [receiverCredentialsHash],
-  })
+  });
 
   const giveKudosCalls = [
     {
@@ -105,17 +87,18 @@ export function GiveKudos({ userData }) {
     isPending,
   } = useSendTransaction({ calls: giveKudosCalls })
 
-  const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`
-  const receiverHasValidAddress = receiverWalletDataHexValue != '0x0'
+  const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`;
+  const receiverHasValidAddress = receiverWalletDataHexValue != '0x0';
+
   const { data, isSuccess } = useTransactionReceipt({
     hash: giveKudosData?.transaction_hash,
     watch: true,
-  })
+  });
 
   const handleClick = async (Event) => {
-    Event.preventDefault()
-    sendGiveKudos()
-  }
+    Event.preventDefault();
+    sendGiveKudos();
+  };
 
   return (
     <>
@@ -199,7 +182,7 @@ export function GiveKudos({ userData }) {
           type="button"
           onClick={handleClick}
           disabled={
-            !receiverHasValidAddress && amount > 0 && description.length() > 0
+            !receiverHasValidAddress && amount > 0 && description.length === 0
           }
           className="rounded-md bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-600 shadow-sm hover:bg-emerald-100 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
         >
