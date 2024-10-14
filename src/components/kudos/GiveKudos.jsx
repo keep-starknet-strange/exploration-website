@@ -19,24 +19,25 @@ const splitU256 = (value) => {
     low: (bigIntValue % BigInt128).toString(),
     high: (bigIntValue / BigInt128).toString(),
   }
-}
 
 export function GiveKudos({ userData }) {
-  const senderCredentialsHash = useCredentialHash(userData.name, userData.email)
-  const receiverCredentialsHash = useCredentialHash(name, email)
-  const [description, setDescription] = useState('')
-  const [email, setEmail] = useState('')
-  const [name, setName] = useState('')
-  const [amount, setAmount] = useState(0)
-  const descriptionAsHex = shortString.encodeShortString(description)
-  const amountU256 = splitU256(amount)
+  const [description, setDescription] = useState('');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [amount, setAmount] = useState(0);
+
+  const senderCredentialsHash = useCredentialHash(userData.name, userData.email);
+  const receiverCredentialsHash = useCredentialHash(name, email);
+  
+  const descriptionAsHex = shortString.encodeShortString(description);
+  const amountU256 = splitU256(amount);  
 
   const { data: receiverWalletData } = useReadContract({
     abi: abi,
     functionName: 'get_credential_address',
     address: contractAddress,
     args: [receiverCredentialsHash],
-  })
+  });
 
   const giveKudosCalls = [
     {
@@ -58,17 +59,18 @@ export function GiveKudos({ userData }) {
     isPending,
   } = useSendTransaction({ calls: giveKudosCalls })
 
-  const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`
-  const receiverHasValidAddress = receiverWalletDataHexValue != '0x0'
+  const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`;
+  const receiverHasValidAddress = receiverWalletDataHexValue != '0x0';
+
   const { data, isSuccess } = useTransactionReceipt({
     hash: giveKudosData?.transaction_hash,
     watch: true,
-  })
+  });
 
   const handleClick = async (Event) => {
-    Event.preventDefault()
-    sendGiveKudos()
-  }
+    Event.preventDefault();
+    sendGiveKudos();
+  };
 
   return (
     <>
