@@ -1,5 +1,5 @@
 import { abi } from '@/components/kudos/abi'
-import { useCredentialHash } from '@/hooks/useCredentialHash';
+import { useCredentialHash } from '@/hooks/useCredentialHash'
 import { CheckCircleIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
   useReadContract,
@@ -10,35 +10,33 @@ import { useState } from 'react'
 import { shortString } from 'starknet'
 
 const contractAddress =
-  '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e';
+  '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
 
 const splitU256 = (value) => {
-  const bigIntValue = BigInt(value);
-  const BigInt128 = BigInt(2) ** BigInt(128);
+  const bigIntValue = BigInt(value)
+  const BigInt128 = BigInt(2) ** BigInt(128)
   return {
     low: (bigIntValue % BigInt128).toString(),
     high: (bigIntValue / BigInt128).toString(),
-  };
-};
+  }
+}
 
 export function GiveKudos({ userData }) {
-  const [description, setDescription] = useState('');
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState(0);
-
-  const senderCredentialsHash = useCredentialHash(userData.name, userData.email);
-  const receiverCredentialsHash = useCredentialHash(name, email);
-  
-  const descriptionAsHex = shortString.encodeShortString(description);
-  const amountU256 = splitU256(amount);  
+  const senderCredentialsHash = useCredentialHash(userData.name, userData.email)
+  const receiverCredentialsHash = useCredentialHash(name, email)
+  const [description, setDescription] = useState('')
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [amount, setAmount] = useState(0)
+  const descriptionAsHex = shortString.encodeShortString(description)
+  const amountU256 = splitU256(amount)
 
   const { data: receiverWalletData } = useReadContract({
     abi: abi,
     functionName: 'get_credential_address',
     address: contractAddress,
     args: [receiverCredentialsHash],
-  });
+  })
 
   const giveKudosCalls = [
     {
@@ -60,18 +58,17 @@ export function GiveKudos({ userData }) {
     isPending,
   } = useSendTransaction({ calls: giveKudosCalls })
 
-  const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`;
-  const receiverHasValidAddress = receiverWalletDataHexValue != '0x0';
-
+  const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`
+  const receiverHasValidAddress = receiverWalletDataHexValue != '0x0'
   const { data, isSuccess } = useTransactionReceipt({
     hash: giveKudosData?.transaction_hash,
     watch: true,
-  });
+  })
 
   const handleClick = async (Event) => {
-    Event.preventDefault();
-    sendGiveKudos();
-  };
+    Event.preventDefault()
+    sendGiveKudos()
+  }
 
   return (
     <>
