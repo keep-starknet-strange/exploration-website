@@ -7,37 +7,22 @@ import {
   useTransactionReceipt,
 } from '@starknet-react/core'
 import { useEffect } from 'react'
+import { pedersen_from_hex } from 'pedersen-fast'
+import { shortString } from 'starknet'
+
 
 const contractAddress =
   '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
 
 export function RegisterSwEmployee({ userData, markStepComplete }) {
-  // account 0x026E4c92498D782aDdD4eaed96a32c7330cc91cDE89EA07F9fD434dbC3b87106
-  // Pedersen Hash: {name: 'Zachary Williams', email: 'zachary@starkware.co', salt: 42}
-  // const credentialHash = '0x6864e89d7554273f7df66ba8c594d15e2ef7d5b2e77a7716394a3eea4afc4c8'
+  const credentialHash = useMemo(() => {
+    const nameHex = shortString.encodeShortString(userData.name)
+    const emailHex = shortString.encodeShortString(userData.email)
+    const salt = '0xsalty'
 
-  // account salt1 0x00f1A9DD0B62459C1E6148783a6F05fB706CDF84ADe0662d8F4dD64EB27b2B35
-  // Pedersen Hash: {name: 'Zachary Williams', email: 'zachary@starkware.co', salt: 1}'
-  // credentialHash = 532931342016754
-  // account 5329313420167544
-  //  const credentialHash = '5329313420167544'
+    return pedersen_from_hex(nameHex, pedersen_from_hex(emailHex, salt))
+  }, [userData.name, userData.email, userData.salt])
 
-  // account 6
-  // {name: 'Zachary Williams', email: 'zachary@starkware.co', salt: 2}
-  // const credentialHash = "0x5946aae24e5ce625970214fb7a40775c02984b34dfa295fe48ec04790d16d7f";
-
-  // account 7
-  // {name: 'Zachary Williams', email: 'zachary@starkware.co', salt: 4}
-  // const credentialHash = '0x785d2141461844d9f9fc248ce1b55fa7fdb2a029deb68343475078876dc76ac'
-
-  // account 8
-  // const credentialHash = '0x7ca73ccbb690306bcd5c6d113d772e205c5f8c29ed521976f0d2cd367de7a6e'
-
-  //acount 9 
-  // const credentialHash = '0x8c23961dbd729f72fec88e5dfea1cf9b5149c2689104498698e564f5dd8f99'
-
-  // account 10
- const credentialHash = '0x1e7949ff32d60f61d5f08879a65974a17fcb9e85e4e13f1a8d2fe7ae11c0453'
 
   const { account } = useAccount();
   const {
