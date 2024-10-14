@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { shortString } from 'starknet'
 
 const contractAddress =
-  '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
+  '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e';
 
 const splitU256 = (value) => {
   const bigIntValue = BigInt(value)
