@@ -25,6 +25,5 @@ export function useCredentialHash(name, email) {
 
     fetchCredentialHash();
   }, [name, email]);
-
   return credentialsHash;
 }
