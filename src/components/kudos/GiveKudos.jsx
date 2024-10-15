@@ -19,6 +19,7 @@ const splitU256 = (value) => {
     low: (bigIntValue % BigInt128).toString(),
     high: (bigIntValue / BigInt128).toString(),
   }
+};
 
 export function GiveKudos({ userData }) {
   const [description, setDescription] = useState('');
