@@ -22,7 +22,7 @@ export function useCredentialHash(name, email) {
         }
       }
     }
-    fetchCredentialHash();
-  }, [name, email]);
-  return credentialsHash;
+    fetchCredentialHash()
+  }, [name, email])
+  return credentialsHash
 }
