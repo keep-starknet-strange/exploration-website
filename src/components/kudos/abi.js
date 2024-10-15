@@ -48,7 +48,43 @@ export const abi = [
             type: 'core::starknet::contract_address::ContractAddress',
           },
         ],
-        outputs: [],
+        outputs: [
+          {
+            type: 'core::integer::u256'
+          },
+        ],
+      },
+      {
+        type: 'function',
+        name: 'get_total_received',
+        state_mutability: 'view',
+        inputs: [
+          {
+            name: 'address',
+            type: 'core::starknet::contract_address::ContractAddress',
+          },
+        ],
+        outputs: [
+          {
+            type: 'core::integer::u256'
+          },
+        ],
+      },
+      {
+        type: 'function',
+        name: 'balance_of',
+        state_mutability: 'view',
+        inputs: [
+          {
+            name: 'address',
+            type: 'core::starknet::contract_address::ContractAddress',
+          },
+        ],
+        outputs: [
+          {
+            type: 'core::integer::u256'
+          },
+        ],
       },
       {
         type: 'function',
