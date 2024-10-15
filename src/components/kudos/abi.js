@@ -50,7 +50,7 @@ export const abi = [
         ],
         outputs: [
           {
-            type: 'core::integer::u256'
+            type: 'core::integer::u256',
           },
         ],
       },
@@ -66,7 +66,7 @@ export const abi = [
         ],
         outputs: [
           {
-            type: 'core::integer::u256'
+            type: 'core::integer::u256',
           },
         ],
       },
@@ -82,7 +82,7 @@ export const abi = [
         ],
         outputs: [
           {
-            type: 'core::integer::u256'
+            type: 'core::integer::u256',
           },
         ],
       },

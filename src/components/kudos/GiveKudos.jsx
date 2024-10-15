@@ -7,11 +7,11 @@ import {
   useSendTransaction,
   useTransactionReceipt,
 } from '@starknet-react/core'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { shortString } from 'starknet'
 
 const CONTRACT_ADDRESS =
-  '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e';
+  '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
 
 const splitU256 = (value) => {
   const bigIntValue = BigInt(value)
@@ -20,7 +20,7 @@ const splitU256 = (value) => {
     low: (bigIntValue % BigInt128).toString(),
     high: (bigIntValue / BigInt128).toString(),
   }
-};
+}
 
 const useKudosReadData = (args, functionName) => {
   const { data: kudosData } = useReadContract({
@@ -28,51 +28,62 @@ const useKudosReadData = (args, functionName) => {
     functionName: functionName,
     address: CONTRACT_ADDRESS,
     args: args,
-  });
+  })
 
-  return kudosData;
-};
+  return kudosData
+}
 
 export function GiveKudos({ userData, markStepComplete }) {
   const { address: accountAddress } = useAccount()
-  const [description, setDescription] = useState('');
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState(0);
+  const [description, setDescription] = useState('')
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [amount, setAmount] = useState(0)
   const [kudosGiven, setKudosGiven] = useState(0)
   const [kudosReceived, setKudosReceived] = useState(0)
   const [kudosBalance, setKudosBalance] = useState(0)
 
-  const senderCredentialsHash = useCredentialHash(userData.name, userData.email);
-  const receiverCredentialsHash = useCredentialHash(name, email);
-  
-  const descriptionAsHex = shortString.encodeShortString(description);
-  const amountU256 = splitU256(amount);
+  const senderCredentialsHash = useCredentialHash(userData.name, userData.email)
+  const receiverCredentialsHash = useCredentialHash(name, email)
 
-  const givenKudosData = useKudosReadData([accountAddress], "get_total_given")
+  const descriptionAsHex = shortString.encodeShortString(description)
+  const amountU256 = splitU256(amount)
+
+  const givenKudosData = useKudosReadData([accountAddress], 'get_total_given')
   const hasGivenKudos = givenKudosData > 0
-    const receivedKudosData = useKudosReadData([accountAddress], "get_total_received")
-  const kudosBalanceData = useKudosReadData([accountAddress], "balance_of");
-  const receiverWalletData = useKudosReadData([receiverCredentialsHash], "get_credential_address")
+  const receivedKudosData = useKudosReadData(
+    [accountAddress],
+    'get_total_received',
+  )
+  const kudosBalanceData = useKudosReadData([accountAddress], 'balance_of')
+  const receiverWalletData = useKudosReadData(
+    [receiverCredentialsHash],
+    'get_credential_address',
+  )
 
-  const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`;
-  const receiverHasValidAddress = receiverWalletDataHexValue != '0x0';
+  const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`
+  const receiverHasValidAddress = receiverWalletDataHexValue != '0x0'
 
   useEffect(() => {
     if (givenKudosData) {
-      setKudosGiven(givenKudosData);
+      setKudosGiven(givenKudosData)
     }
     if (hasGivenKudos) {
-      markStepComplete(2);
+      markStepComplete(2)
     }
     if (receivedKudosData) {
-      setKudosReceived(receivedKudosData);
+      setKudosReceived(receivedKudosData)
     }
     if (kudosBalanceData) {
-      setKudosBalance(kudosBalanceData);
+      setKudosBalance(kudosBalanceData)
     }
-  }, [givenKudosData, receivedKudosData, kudosBalanceData, hasGivenKudos]);
-
+  }, [
+    givenKudosData,
+    receivedKudosData,
+    kudosBalanceData,
+    hasGivenKudos,
+    markStepComplete,
+  ])
 
   const giveKudosCalls = [
     {
@@ -94,28 +105,31 @@ export function GiveKudos({ userData, markStepComplete }) {
     isPending,
   } = useSendTransaction({ calls: giveKudosCalls })
 
-
   const { data, isSuccess } = useTransactionReceipt({
     hash: giveKudosData?.transaction_hash,
     watch: true,
-  });
+  })
 
   const handleClick = async (Event) => {
-    Event.preventDefault();
-    sendGiveKudos();
-  };
+    Event.preventDefault()
+    sendGiveKudos()
+  }
 
   return (
     <>
-      <GiftIcon className={`h-14 w-14 mx-auto text-${hasGivenKudos ? "emerald-600" : "slate-50"}`} />
+      <GiftIcon
+        className={`h-14 w-14 mx-auto text-${hasGivenKudos ? 'emerald-600' : 'slate-50'}`}
+      />
       <div className="text-md font-light text-slate-50 mt-12 px-8">
-        {kudosGiven == 0 ? "Send some tokens to a teammate" :
-        `You've given ${kudosGiven} Kudos and have ${kudosBalance} don't be stingy!`
-        }<br />
+        {kudosGiven == 0
+          ? 'Send some tokens to a teammate'
+          : `You've given ${kudosGiven} Kudos and have ${kudosBalance} don't be stingy!`}
         <br />
-        {kudosReceived == 0 
+        <br />
+        {kudosReceived == 0
           ? "You haven't received any Kudos, expect a PIP soon"
-          : `You've recieved ${kudosReceived}. That's not very many compared to your coworkers`}<br />
+          : `You've recieved ${kudosReceived}. That's not very many compared to your coworkers`}
+        <br />
         <br />
         Message receivers can verify the data both on-chain and off.
       </div>
