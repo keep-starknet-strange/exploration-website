@@ -28,6 +28,7 @@ const useKudosReadData = (args, functionName) => {
     functionName: functionName,
     address: CONTRACT_ADDRESS,
     args: args,
+    refetchInterval: 1000,
   })
 
   return kudosData
@@ -64,9 +65,39 @@ export function GiveKudos({ userData, markStepComplete }) {
   const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`
   const receiverHasValidAddress = receiverWalletDataHexValue != '0x0'
 
+  
+  const giveKudosCalls = [
+    {
+      contractAddress: CONTRACT_ADDRESS,
+      entrypoint: 'give_kudos',
+      calldata: [
+        amountU256.low,
+        amountU256.high,
+        senderCredentialsHash,
+        receiverCredentialsHash,
+        descriptionAsHex,
+      ],
+    },
+  ]
+  
+  const {
+    send: sendGiveKudos,
+    data: giveKudosData,
+    isPending,
+  } = useSendTransaction({ calls: giveKudosCalls })
+  
+  const { data, isSuccess, status } = useTransactionReceipt({
+    hash: giveKudosData?.transaction_hash,
+    watch: true,
+  })
+  
+  const handleClick = async (Event) => {
+    Event.preventDefault()
+    sendGiveKudos()
+  }
   useEffect(() => {
     if (givenKudosData) {
-      setKudosGiven(givenKudosData)
+    setKudosGiven(givenKudosData)
     }
     if (hasGivenKudos) {
       markStepComplete(2)
@@ -84,36 +115,6 @@ export function GiveKudos({ userData, markStepComplete }) {
     hasGivenKudos,
     markStepComplete,
   ])
-
-  const giveKudosCalls = [
-    {
-      contractAddress: CONTRACT_ADDRESS,
-      entrypoint: 'give_kudos',
-      calldata: [
-        amountU256.low,
-        amountU256.high,
-        senderCredentialsHash,
-        receiverCredentialsHash,
-        descriptionAsHex,
-      ],
-    },
-  ]
-
-  const {
-    send: sendGiveKudos,
-    data: giveKudosData,
-    isPending,
-  } = useSendTransaction({ calls: giveKudosCalls })
-
-  const { data, isSuccess } = useTransactionReceipt({
-    hash: giveKudosData?.transaction_hash,
-    watch: true,
-  })
-
-  const handleClick = async (Event) => {
-    Event.preventDefault()
-    sendGiveKudos()
-  }
 
   return (
     <>
@@ -133,6 +134,18 @@ export function GiveKudos({ userData, markStepComplete }) {
         <br />
         Message receivers can verify the data both on-chain and off.
       </div>
+        <div className="p-4 border border-slate-600 rounded-lg bg-slate-500 shadow my-6">
+          <h2 className="font-semibold">Kudos Balance: <span className="text-green-500">{`${kudosBalance}`}</span></h2>
+        </div>
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="p-4 border border-slate-600 rounded-lg bg-slate-500 shadow">
+          <h2 className="font-semibold">Kudos Received: <span className="text-green-500">{`${kudosReceived}`}</span></h2>
+        </div>
+        <div className="p-4 border border-slate-600 rounded-lg bg-slate-500  shadow">
+          <h2 className="font-semibold">Kudos Given: <span className="text-green-500">{`${kudosGiven}`}</span></h2>
+        </div>
+      </div>
+      <h1 className="text-2xl font-bold mb-6 text-center">Send Kudos</h1>
       <div className="grid gap-6 my-6 md:grid-cols-2">
         <div>
           <label
