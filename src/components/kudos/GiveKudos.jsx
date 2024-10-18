@@ -46,7 +46,7 @@ export function GiveKudos({ userData, markStepComplete }) {
   const [kudosGiven, setKudosGiven] = useState(0)
   const [kudosReceived, setKudosReceived] = useState(0)
   const [kudosBalance, setKudosBalance] = useState(0)
-  const [sendGiveKudosState, setsendGiveKudos] = useState(
+  const [sendGiveKudosState, setSendGiveKudosState] = useState(
     sendGiveKudosInitialState,
   )
 
@@ -56,8 +56,8 @@ export function GiveKudos({ userData, markStepComplete }) {
     sendGiveKudosState.email,
   )
 
-  const descriptionAsHex = shortString.encodeShortString(description)
-  const amountU256 = splitU256(amount)
+  const descriptionAsHex = shortString.encodeShortString(sendGiveKudosState.description)
+  const amountU256 = splitU256(sendGiveKudosState.amount)
 
   const givenKudosData = useKudosReadData([accountAddress], 'get_total_given')
   const hasGivenKudos = givenKudosData > 0
@@ -183,6 +183,7 @@ export function GiveKudos({ userData, markStepComplete }) {
           <input
             onChange={handleChange}
             type="text"
+            name="name"
             value={sendGiveKudosState.name}
             placeHolder={'Eli Ben-Sasson'}
             id="full_name"
@@ -200,6 +201,7 @@ export function GiveKudos({ userData, markStepComplete }) {
           <input
             onChange={handleChange}
             type="text"
+            name="email"
             value={sendGiveKudosState.email}
             placeHolder={'eli@starkware.co'}
             id="Email"
@@ -215,8 +217,9 @@ export function GiveKudos({ userData, markStepComplete }) {
             Amount
           </label>
           <input
-            onChange={handleChange}
+            name="amount"
             value={sendGiveKudosState.amount}
+            onChange={handleChange}
             type="number"
             id="amount"
             className="bg-slate-500 border border-slate-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 no-arrows"
@@ -232,6 +235,7 @@ export function GiveKudos({ userData, markStepComplete }) {
           </label>
           <input
             onChange={handleChange}
+            name="description"
             value={sendGiveKudosState.description}
             type="text"
             id="pin"
@@ -245,7 +249,7 @@ export function GiveKudos({ userData, markStepComplete }) {
           type="button"
           onClick={handleClick}
           disabled={
-            !receiverHasValidAddress || amount == 0 || description.length === 0
+            !receiverHasValidAddress || sendGiveKudosState.amount == 0 || sendGiveKudosState.description.length === 0
           }
           className="rounded-md bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-600 shadow-sm hover:bg-emerald-100 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
         >
