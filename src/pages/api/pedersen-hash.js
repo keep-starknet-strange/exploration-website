@@ -1,6 +1,6 @@
 import { pedersen_from_hex } from 'pedersen-fast'
 
-const salt = 42
+const salt = process.env.REACT_APP_SALT
 export default function handler(req, res) {
   const { nameHex, emailHex } = req.body
 

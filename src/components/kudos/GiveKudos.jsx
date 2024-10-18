@@ -13,6 +13,13 @@ import { shortString } from 'starknet'
 const CONTRACT_ADDRESS =
   '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
 
+const sendGiveKudosInitialState = {
+  description: "", 
+  email: "", 
+  name: "", 
+  amount: 0, 
+}
+
 const splitU256 = (value) => {
   const bigIntValue = BigInt(value)
   const BigInt128 = BigInt(2) ** BigInt(128)
@@ -36,16 +43,13 @@ const useKudosReadData = (args, functionName) => {
 
 export function GiveKudos({ userData, markStepComplete }) {
   const { address: accountAddress } = useAccount()
-  const [description, setDescription] = useState('')
-  const [email, setEmail] = useState('')
-  const [name, setName] = useState('')
-  const [amount, setAmount] = useState(0)
   const [kudosGiven, setKudosGiven] = useState(0)
   const [kudosReceived, setKudosReceived] = useState(0)
   const [kudosBalance, setKudosBalance] = useState(0)
+  const [sendGiveKudosState, setsendGiveKudos] = useState(sendGiveKudosInitialState)
 
   const senderCredentialsHash = useCredentialHash(userData.name, userData.email)
-  const receiverCredentialsHash = useCredentialHash(name, email)
+  const receiverCredentialsHash = useCredentialHash(sendGiveKudosState.name, sendGiveKudosState.email)
 
   const descriptionAsHex = shortString.encodeShortString(description)
   const amountU256 = splitU256(amount)
@@ -65,7 +69,6 @@ export function GiveKudos({ userData, markStepComplete }) {
   const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`
   const receiverHasValidAddress = receiverWalletDataHexValue != '0x0'
 
-  
   const giveKudosCalls = [
     {
       contractAddress: CONTRACT_ADDRESS,
@@ -94,7 +97,16 @@ export function GiveKudos({ userData, markStepComplete }) {
   const handleClick = async (Event) => {
     Event.preventDefault()
     sendGiveKudos()
-  }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSendGiveKudosState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   useEffect(() => {
     if (givenKudosData) {
     setKudosGiven(givenKudosData)
@@ -155,9 +167,9 @@ export function GiveKudos({ userData, markStepComplete }) {
             Full Name
           </label>
           <input
-            onChange={(e) => setName(e.target.value)}
+            onChange={handleChange}
             type="text"
-            value={name}
+            value={sendGiveKudosState.name}
             placeHolder={'Eli Ben-Sasson'}
             id="full_name"
             className="bg-slate-500 border border-slate-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -172,9 +184,9 @@ export function GiveKudos({ userData, markStepComplete }) {
             Email
           </label>
           <input
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleChange}
             type="text"
-            value={email}
+            value={sendGiveKudosState.email}
             placeHolder={'eli@starkware.co'}
             id="Email"
             className="bg-slate-500 border border-slate-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -189,8 +201,8 @@ export function GiveKudos({ userData, markStepComplete }) {
             Amount
           </label>
           <input
-            onChange={(e) => setAmount(e.target.value)}
-            value={amount}
+            onChange={handleChange}
+            value={sendGiveKudosState.amount}
             type="number"
             id="amount"
             className="bg-slate-500 border border-slate-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 no-arrows"
@@ -205,8 +217,8 @@ export function GiveKudos({ userData, markStepComplete }) {
             Description
           </label>
           <input
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
+            onChange={handleChange}
+            value={sendGiveKudosState.description}
             type="text"
             id="pin"
             className="bg-slate-500 border border-slate-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"

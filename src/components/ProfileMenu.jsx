@@ -3,13 +3,12 @@ import {
   ArrowRightEndOnRectangleIcon,
   ChevronDownIcon,
 } from '@heroicons/react/20/solid'
-import { HeartIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { HeartIcon } from '@heroicons/react/24/outline'
 import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 const options = [
-  { name: 'Profile', href: '/profile', icon: UserCircleIcon },
   { name: 'Kudos', href: '/kudos', icon: HeartIcon },
 ]
 
