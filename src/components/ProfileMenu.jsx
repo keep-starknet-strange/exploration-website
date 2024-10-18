@@ -8,9 +8,7 @@ import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const options = [
-  { name: 'Kudos', href: '/kudos', icon: HeartIcon },
-]
+const options = [{ name: 'Kudos', href: '/kudos', icon: HeartIcon }]
 
 export function ProfileMenu({ data }) {
   return (

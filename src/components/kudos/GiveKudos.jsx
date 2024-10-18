@@ -14,10 +14,10 @@ const CONTRACT_ADDRESS =
   '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
 
 const sendGiveKudosInitialState = {
-  description: "", 
-  email: "", 
-  name: "", 
-  amount: 0, 
+  description: '',
+  email: '',
+  name: '',
+  amount: 0,
 }
 
 const splitU256 = (value) => {
@@ -46,10 +46,15 @@ export function GiveKudos({ userData, markStepComplete }) {
   const [kudosGiven, setKudosGiven] = useState(0)
   const [kudosReceived, setKudosReceived] = useState(0)
   const [kudosBalance, setKudosBalance] = useState(0)
-  const [sendGiveKudosState, setsendGiveKudos] = useState(sendGiveKudosInitialState)
+  const [sendGiveKudosState, setsendGiveKudos] = useState(
+    sendGiveKudosInitialState,
+  )
 
   const senderCredentialsHash = useCredentialHash(userData.name, userData.email)
-  const receiverCredentialsHash = useCredentialHash(sendGiveKudosState.name, sendGiveKudosState.email)
+  const receiverCredentialsHash = useCredentialHash(
+    sendGiveKudosState.name,
+    sendGiveKudosState.email,
+  )
 
   const descriptionAsHex = shortString.encodeShortString(description)
   const amountU256 = splitU256(amount)
@@ -82,34 +87,34 @@ export function GiveKudos({ userData, markStepComplete }) {
       ],
     },
   ]
-  
+
   const {
     send: sendGiveKudos,
     data: giveKudosData,
     isPending,
   } = useSendTransaction({ calls: giveKudosCalls })
-  
+
   const { data, isSuccess, status } = useTransactionReceipt({
     hash: giveKudosData?.transaction_hash,
     watch: true,
   })
-  
+
   const handleClick = async (Event) => {
     Event.preventDefault()
     sendGiveKudos()
-  };
+  }
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setSendGiveKudosState((prevState) => ({
       ...prevState,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   useEffect(() => {
     if (givenKudosData) {
-    setKudosGiven(givenKudosData)
+      setKudosGiven(givenKudosData)
     }
     if (hasGivenKudos) {
       markStepComplete(2)
@@ -146,15 +151,24 @@ export function GiveKudos({ userData, markStepComplete }) {
         <br />
         Message receivers can verify the data both on-chain and off.
       </div>
-        <div className="p-4 border border-slate-600 rounded-lg bg-slate-500 shadow my-6">
-          <h2 className="font-semibold">Kudos Balance: <span className="text-green-500">{`${kudosBalance}`}</span></h2>
-        </div>
+      <div className="p-4 border border-slate-600 rounded-lg bg-slate-500 shadow my-6">
+        <h2 className="font-semibold">
+          Kudos Balance:{' '}
+          <span className="text-green-500">{`${kudosBalance}`}</span>
+        </h2>
+      </div>
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="p-4 border border-slate-600 rounded-lg bg-slate-500 shadow">
-          <h2 className="font-semibold">Kudos Received: <span className="text-green-500">{`${kudosReceived}`}</span></h2>
+          <h2 className="font-semibold">
+            Kudos Received:{' '}
+            <span className="text-green-500">{`${kudosReceived}`}</span>
+          </h2>
         </div>
         <div className="p-4 border border-slate-600 rounded-lg bg-slate-500  shadow">
-          <h2 className="font-semibold">Kudos Given: <span className="text-green-500">{`${kudosGiven}`}</span></h2>
+          <h2 className="font-semibold">
+            Kudos Given:{' '}
+            <span className="text-green-500">{`${kudosGiven}`}</span>
+          </h2>
         </div>
       </div>
       <h1 className="text-2xl font-bold mb-6 text-center">Send Kudos</h1>

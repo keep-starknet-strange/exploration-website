@@ -1,7 +1,7 @@
 import { GiveKudos } from './kudos/GiveKudos'
 import { RegisterSwEmployee } from './kudos/RegisterSwEmployee'
-import { LinkWallet } from '@/components/kudos/LinkWallet'
 import { Container } from '@/components/Container'
+import { LinkWallet } from '@/components/kudos/LinkWallet'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useAccount } from '@starknet-react/core'
