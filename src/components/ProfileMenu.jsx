@@ -3,23 +3,23 @@ import {
   ArrowRightEndOnRectangleIcon,
   ChevronDownIcon,
 } from '@heroicons/react/20/solid'
-import { HeartIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { HeartIcon } from '@heroicons/react/24/outline'
 import { signOut } from 'next-auth/react'
+import Image from 'next/image'
 import Link from 'next/link'
 
-const options = [
-  { name: 'Profile', href: '/profile', icon: UserCircleIcon },
-  { name: 'Kudos', href: '/kudos', icon: HeartIcon },
-]
+const options = [{ name: 'Kudos', href: '/kudos', icon: HeartIcon }]
 
 export function ProfileMenu({ data }) {
   return (
     <Popover className="relative" transition>
       <PopoverButton className="inline-flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-        <img
+        <Image
           className="inline-block h-6 w-6 rounded-full"
           src={data.image}
           alt="profile-icon"
+          width={24}
+          height={24}
         />
         {console.log('IMAGE URL: ', data.image)}
         <ChevronDownIcon

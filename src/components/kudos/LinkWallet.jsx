@@ -40,7 +40,7 @@ export function LinkWallet() {
                 className="rounded-md bg-emerald-50 px-4 py-2.5 shadow-sm hover:bg-slate-200 flex items-center"
               >
                 <Image
-                  src={connector.icon.light}
+                  src={connector.icon}
                   alt="connector-icon"
                   className="w-8"
                   width={8}

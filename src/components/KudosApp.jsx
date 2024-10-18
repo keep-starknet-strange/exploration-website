@@ -1,12 +1,12 @@
-import { Kudos } from '@/components/checklist/Kudos'
-import { LinkWallet } from '@/components/checklist/LinkWallet'
-import { MintNFT } from '@/components/checklist/MintNFT'
-import { SignMessage } from '@/components/checklist/SignMessage'
+import { GiveKudos } from './kudos/GiveKudos'
+import { RegisterSwEmployee } from './kudos/RegisterSwEmployee'
 import { Container } from '@/components/Container'
+import { LinkWallet } from '@/components/kudos/LinkWallet'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useAccount } from '@starknet-react/core'
-import { useState } from 'react'
+import Image from 'next/image'
+import { useCallback, useEffect, useState } from 'react'
 
 // status: 'complete' | 'current' | 'upcoming'
 const steps = [
@@ -17,21 +17,15 @@ const steps = [
     status: 'current',
   },
   {
-    name: 'Sign Message',
-    description: 'Attest to credentials',
-    comp: SignMessage,
+    name: 'Register',
+    description: 'Mint ERC20 Token',
+    comp: RegisterSwEmployee,
     status: 'upcoming',
   },
   {
-    name: 'Mint NFT',
-    description: 'Collectible identity',
-    comp: MintNFT,
-    status: 'upcoming',
-  },
-  {
-    name: 'Kudos',
-    description: 'Give teammate kudos',
-    comp: Kudos,
+    name: 'Give Kudos',
+    description: 'Send some tokens to a teammate',
+    comp: GiveKudos,
     status: 'upcoming',
   },
 ]
@@ -40,11 +34,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export function Profile({ userData }) {
+export function KudosApp({ userData }) {
   const { address, status } = useAccount()
   const [activeStep, setActiveStep] = useState(
     steps.findIndex((x) => x.status === 'current'),
   )
+  const [stepsState, setStepsState] = useState(steps)
 
   function moveBackward() {
     if (activeStep !== 0) {
@@ -52,19 +47,43 @@ export function Profile({ userData }) {
     }
   }
 
-  function moveForward() {
+  const moveForward = useCallback(() => {
     if (activeStep !== steps.length - 1) {
-      setActiveStep(activeStep + 1)
+      setActiveStep((prevStep) => prevStep + 1) // Update state with a functional update
     }
-  }
+  }, [activeStep])
+
+  const markStepComplete = useCallback(
+    (stepIndex) => {
+      setStepsState((prevSteps) => {
+        const newSteps = [...prevSteps]
+        if (stepIndex < newSteps.length) {
+          newSteps[activeStep].status = 'complete'
+        }
+        if (stepIndex + 1 < newSteps.length) {
+          newSteps[activeStep + 1].status = 'current'
+        }
+        return newSteps
+      })
+    },
+    [activeStep],
+  )
+
+  useEffect(() => {
+    if (status === 'connected' && activeStep === 0) {
+      markStepComplete(0)
+    }
+  }, [status, activeStep, markStepComplete])
 
   return (
     <Container className="relative mt-10 sm:mt-24">
       <div className="inline-flex px-10">
-        <img
+        <Image
           className="inline-block h-24 w-24 rounded-full"
           src={userData.image}
           alt="usrProf"
+          width={96}
+          height={96}
         />
         <div className="ml-14 text-4xl font-bold tracking-tighter text-transparent bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text">
           {userData.name}
@@ -189,9 +208,12 @@ export function Profile({ userData }) {
                   <div className="divide-y divide-slate-500 overflow-hidden rounded-lg bg-slate-700 shadow">
                     <div className="px-4 py-5 sm:p-6">
                       {status === 'connected' ? (
-                        <step.comp userData={userData} />
+                        <step.comp
+                          userData={userData}
+                          markStepComplete={markStepComplete}
+                        />
                       ) : (
-                        <LinkWallet />
+                        <LinkWallet userData={userData} />
                       )}
                     </div>
                     <div className="px-4 py-4 sm:px-6 flex flex-row justify-between">
