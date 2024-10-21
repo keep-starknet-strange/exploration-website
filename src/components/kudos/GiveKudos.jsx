@@ -10,8 +10,7 @@ import {
 import { useEffect, useState } from 'react'
 import { shortString } from 'starknet'
 
-const CONTRACT_ADDRESS =
-  '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
+const CONTRACT_ADDRESS = process.env.KUDOS_ADDRESS
 
 const sendGiveKudosInitialState = {
   description: '',
