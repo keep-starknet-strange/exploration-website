@@ -35,7 +35,7 @@ const useKudosReadData = (args, functionName) => {
     functionName: functionName,
     address: CONTRACT_ADDRESS,
     args: args,
-    refetchInterval: 1000,
+    refetchInterval: 10000,
   })
 
   return kudosData
