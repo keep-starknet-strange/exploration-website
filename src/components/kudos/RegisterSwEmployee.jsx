@@ -9,8 +9,7 @@ import {
 } from '@starknet-react/core'
 import { useEffect, useState } from 'react'
 
-const contractAddress =
-  '0x49db95ecf5245921f420dfe01536c8f1266198d4d46cc28f592f51afed0159e'
+const contractAddress = process.env.KUDOS_ADDRESS
 
 export function RegisterSwEmployee({ userData, markStepComplete }) {
   const credentialHash = useCredentialHash(userData.name, userData.email)
