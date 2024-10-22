@@ -34,6 +34,10 @@ const useKudosReadData = (args, functionName) => {
   return kudosData
 }
 
+const divideBy10e18 = (value) => {
+  return value / BigInt(10 ** 18)
+}
+
 export function GiveKudos({ userData, markStepComplete }) {
   const { address: accountAddress } = useAccount()
   const [kudosGiven, setKudosGiven] = useState(BigInt(0))
@@ -51,7 +55,6 @@ export function GiveKudos({ userData, markStepComplete }) {
   const descriptionAsHex = shortString.encodeShortString(
     sendGiveKudosState.description,
   )
-
   const amountU256 = transformIntForAmount(BigInt(sendGiveKudosState.amount))
   const givenKudosData = useKudosReadData([accountAddress], 'get_total_given')
   const hasGivenKudos = givenKudosData > 0
@@ -118,10 +121,12 @@ export function GiveKudos({ userData, markStepComplete }) {
       setKudosGiven(divideBy10e18(givenKudosData))
     }
     if (receivedKudosData) {
-      setKudosReceived(divideBy10e18(receivedKudosData))
+      const dividedReceivedKudosData = divideBy10e18(receivedKudosData)
+      setKudosReceived(dividedReceivedKudosData)
     }
     if (kudosBalanceData) {
-      setKudosBalance(divideBy10e18(kudosBalanceData))
+      const dividedKudosBalanceData = divideBy10e18(kudosBalanceData)
+      setKudosBalance(dividedKudosBalanceData)
     }
   }, [
     givenKudosData,
