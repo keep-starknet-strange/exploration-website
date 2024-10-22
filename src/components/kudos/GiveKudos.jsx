@@ -16,15 +16,15 @@ const sendGiveKudosInitialState = {
   description: '',
   email: '',
   name: '',
-  amount: 0,
+  amount: BigInt(0),
 }
 
-const splitU256 = (value) => {
-  const bigIntValue = BigInt(value)
-  const BigInt128 = BigInt(2) ** BigInt(128)
+const transformInt = (value) => {
+  const transformedIntValue = BigInt(value) * BigInt(10 ** 18)
+  const transformedIntValue128 = BigInt(2) ** BigInt(128)
   return {
-    low: (bigIntValue % BigInt128).toString(),
-    high: (bigIntValue / BigInt128).toString(),
+    low: (transformedIntValue % transformedIntValue128).toString(),
+    high: (transformedIntValue / transformedIntValue128).toString(),
   }
 }
 
@@ -40,11 +40,15 @@ const useKudosReadData = (args, functionName) => {
   return kudosData
 }
 
+const divideBy10e18 = (value) => {
+  return value / BigInt(10 ** 18)
+}
+
 export function GiveKudos({ userData, markStepComplete }) {
   const { address: accountAddress } = useAccount()
-  const [kudosGiven, setKudosGiven] = useState(0)
-  const [kudosReceived, setKudosReceived] = useState(0)
-  const [kudosBalance, setKudosBalance] = useState(0)
+  const [kudosGiven, setKudosGiven] = useState(BigInt(0))
+  const [kudosReceived, setKudosReceived] = useState(BigInt(0))
+  const [kudosBalance, setKudosBalance] = useState(BigInt(0))
   const [sendGiveKudosState, setSendGiveKudosState] = useState(
     sendGiveKudosInitialState,
   )
@@ -58,7 +62,7 @@ export function GiveKudos({ userData, markStepComplete }) {
   const descriptionAsHex = shortString.encodeShortString(
     sendGiveKudosState.description,
   )
-  const amountU256 = splitU256(sendGiveKudosState.amount)
+  const amountU256 = transformInt(sendGiveKudosState.amount)
 
   const givenKudosData = useKudosReadData([accountAddress], 'get_total_given')
   const hasGivenKudos = givenKudosData > 0
@@ -115,16 +119,19 @@ export function GiveKudos({ userData, markStepComplete }) {
 
   useEffect(() => {
     if (givenKudosData) {
-      setKudosGiven(givenKudosData)
+      const dividedKudosData = divideBy10e18(givenKudosData)
+      setKudosGiven(dividedKudosData)
     }
     if (hasGivenKudos) {
       markStepComplete(2)
     }
     if (receivedKudosData) {
-      setKudosReceived(receivedKudosData)
+      const dividedReceivedKudosData = divideBy10e18(receivedKudosData)
+      setKudosReceived(dividedReceivedKudosData)
     }
     if (kudosBalanceData) {
-      setKudosBalance(kudosBalanceData)
+      const dividedKudosBalanceData = divideBy10e18(kudosBalanceData)
+      setKudosBalance(dividedKudosBalanceData)
     }
   }, [
     givenKudosData,
