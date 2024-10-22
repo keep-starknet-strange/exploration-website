@@ -19,15 +19,19 @@ import { shortString } from 'starknet'
 const sendGiveKudosInitialState = {
   description: '',
   email: '',
+<<<<<<< HEAD
   amount: BigInt(0)
+=======
+  amount: BigInt(0),
+>>>>>>> 2123e2d (handle 10e18 integers)
 }
 
-const splitU256 = (value) => {
-  const bigIntValue = BigInt(value)
-  const BigInt128 = BigInt(2) ** BigInt(128)
+const transformInt = (value) => {
+  const transformedIntValue = BigInt(value) * BigInt(10 ** 18)
+  const transformedIntValue128 = BigInt(2) ** BigInt(128)
   return {
-    low: (bigIntValue % BigInt128).toString(),
-    high: (bigIntValue / BigInt128).toString(),
+    low: (transformedIntValue % transformedIntValue128).toString(),
+    high: (transformedIntValue / transformedIntValue128).toString(),
   }
 }
 
@@ -41,6 +45,10 @@ const useKudosReadData = (args, functionName) => {
   })
 
   return kudosData
+}
+
+const divideBy10e18 = (value) => {
+  return value / BigInt(10 ** 18)
 }
 
 export function GiveKudos({ userData, markStepComplete }) {
@@ -60,7 +68,11 @@ export function GiveKudos({ userData, markStepComplete }) {
   const descriptionAsHex = shortString.encodeShortString(
     sendGiveKudosState.description,
   )
+<<<<<<< HEAD
   const amountU256 = transformIntForAmount(BigInt(sendGiveKudosState.amount))
+=======
+  const amountU256 = transformInt(sendGiveKudosState.amount)
+>>>>>>> 2123e2d (handle 10e18 integers)
 
   const givenKudosData = useKudosReadData([accountAddress], 'get_total_given')
   const hasGivenKudos = givenKudosData > 0
