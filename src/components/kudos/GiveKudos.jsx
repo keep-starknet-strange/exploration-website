@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from 'react'
 import { shortString } from 'starknet'
 
-const CONTRACT_ADDRESS = process.env.KUDOS_ADDRESS
+const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_KUDOS_ADDRESS
 
 const sendGiveKudosInitialState = {
   description: '',
@@ -55,7 +55,9 @@ export function GiveKudos({ userData, markStepComplete }) {
     sendGiveKudosState.email,
   )
 
-  const descriptionAsHex = shortString.encodeShortString(sendGiveKudosState.description)
+  const descriptionAsHex = shortString.encodeShortString(
+    sendGiveKudosState.description,
+  )
   const amountU256 = splitU256(sendGiveKudosState.amount)
 
   const givenKudosData = useKudosReadData([accountAddress], 'get_total_given')
@@ -248,7 +250,9 @@ export function GiveKudos({ userData, markStepComplete }) {
           type="button"
           onClick={handleClick}
           disabled={
-            !receiverHasValidAddress || sendGiveKudosState.amount == 0 || sendGiveKudosState.description.length === 0
+            !receiverHasValidAddress ||
+            sendGiveKudosState.amount == 0 ||
+            sendGiveKudosState.description.length === 0
           }
           className="rounded-md bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-600 shadow-sm hover:bg-emerald-100 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
         >
