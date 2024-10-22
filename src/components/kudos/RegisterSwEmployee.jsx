@@ -9,7 +9,7 @@ import {
 } from '@starknet-react/core'
 import { useEffect, useState } from 'react'
 
-const contractAddress = process.env.KUDOS_ADDRESS
+const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_KUDOS_ADDRESS
 
 export function RegisterSwEmployee({ userData, markStepComplete }) {
   const credentialHash = useCredentialHash(userData.name, userData.email)
@@ -21,7 +21,7 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
   } = useReadContract({
     abi: abi,
     functionName: 'get_credential_address',
-    address: contractAddress,
+    address: CONTRACT_ADDRESS,
     args: [credentialHash],
   })
 
@@ -32,7 +32,7 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
   } = useReadContract({
     abi: abi,
     functionName: 'is_registered',
-    address: contractAddress,
+    address: CONTRACT_ADDRESS,
     args: [account?.address],
   })
 
@@ -44,7 +44,7 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
 
   const registerEmployeeCalls = [
     {
-      contractAddress: contractAddress,
+      contractAddress: CONTRACT_ADDRESS,
       entrypoint: 'register_sw_employee',
       calldata: [credentialHash],
     },
