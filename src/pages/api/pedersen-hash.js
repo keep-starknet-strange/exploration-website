@@ -11,6 +11,7 @@ export default function handler(req, res) {
   if (!valueAsHex || !isValidHex(valueAsHex)) {
     return res.status(400).json({ error: 'Invalid or missing hex value' })
   }
+  
   try {
     const saltHex = `0x${BigInt(salt).toString(16)}`
     const hash = pedersen_from_hex(valueAsHex, saltHex)
