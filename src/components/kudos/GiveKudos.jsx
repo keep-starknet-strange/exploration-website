@@ -171,25 +171,7 @@ export function GiveKudos({ userData, markStepComplete }) {
         </div>
       </div>
       <h1 className="text-2xl font-bold mb-6 text-center">Send Kudos</h1>
-      <div className="grid gap-6 my-6 md:grid-cols-2">
-        <div>
-          <label
-            htmlFor="full_name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Full Name
-          </label>
-          <input
-            onChange={handleChange}
-            type="text"
-            name="name"
-            value={sendGiveKudosState.name}
-            placeHolder={'Eli Ben-Sasson'}
-            id="full_name"
-            className="bg-slate-500 border border-slate-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required
-          />
-        </div>
+      <div className="grid gap-6 my-6 md:grid-cols-2">-m 
         <div>
           <label
             htmlFor="email"
