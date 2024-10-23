@@ -1,6 +1,7 @@
 import { abi } from '@/components/kudos/abi'
 import { CONTRACT_ADDRESS, walletDataHexValue } from '@/lib/kudos'
 import { usePedersenHash } from '@/hooks/usePedersenHash'
+import { CONTRACT_ADDRESS, walletDataHexValue } from '@/lib/kudos'
 import { CheckCircleIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
   useAccount,

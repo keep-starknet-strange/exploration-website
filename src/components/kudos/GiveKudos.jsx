@@ -6,6 +6,7 @@ import {
   walletDataHexValue,
 } from '@/lib/kudos.js'
 import { usePedersenHash } from '@/hooks/usePedersenHash'
+import { CONTRACT_ADDRESS, transformInt, divideBy10e18, walletDataHexValue } from '@/lib/kudos.js'
 import { GiftIcon } from '@heroicons/react/24/outline'
 import {
   useAccount,
@@ -32,10 +33,6 @@ const useKudosReadData = (args, functionName) => {
   })
 
   return kudosData
-}
-
-const divideBy10e18 = (value) => {
-  return value / BigInt(10 ** 18)
 }
 
 export function GiveKudos({ userData, markStepComplete }) {
@@ -121,12 +118,10 @@ export function GiveKudos({ userData, markStepComplete }) {
       setKudosGiven(divideBy10e18(givenKudosData))
     }
     if (receivedKudosData) {
-      const dividedReceivedKudosData = divideBy10e18(receivedKudosData)
-      setKudosReceived(dividedReceivedKudosData)
+      setKudosReceived(divideBy10e18(receivedKudosData))
     }
     if (kudosBalanceData) {
-      const dividedKudosBalanceData = divideBy10e18(kudosBalanceData)
-      setKudosBalance(dividedKudosBalanceData)
+      setKudosBalance(divideBy10e18(kudosBalanceData))
     }
   }, [
     givenKudosData,
