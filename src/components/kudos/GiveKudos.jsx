@@ -6,7 +6,6 @@ import {
   walletDataHexValue,
 } from '@/lib/kudos.js'
 import { usePedersenHash } from '@/hooks/usePedersenHash'
-import { CONTRACT_ADDRESS, transformInt, divideBy10e18, walletDataHexValue } from '@/lib/kudos.js'
 import {
   CONTRACT_ADDRESS,
   divideBy10e18,
@@ -50,10 +49,8 @@ export function GiveKudos({ userData, markStepComplete }) {
     sendGiveKudosInitialState,
   )
 
-  const senderCredentialsHash = usePedersenHash(userData.name, userData.email)
-  const receiverCredentialsHash = usePedersenHash(
-    sendGiveKudosState.email,
-  )
+  const senderCredentialsHash = usePedersenHash(userData.email)
+  const receiverCredentialsHash = usePedersenHash(sendGiveKudosState.email)
 
   const descriptionAsHex = shortString.encodeShortString(
     sendGiveKudosState.description,
