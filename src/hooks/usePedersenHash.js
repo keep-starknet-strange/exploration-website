@@ -9,7 +9,6 @@ export function usePedersenHash(value) {
     const fetchPedersenHash = async () => {
       if (value) {
         const valueAsHex = shortString.encodeShortString(value)
-
         try {
           const response = await axios.post('/api/pedersen-hash', {
             valueAsHex,
