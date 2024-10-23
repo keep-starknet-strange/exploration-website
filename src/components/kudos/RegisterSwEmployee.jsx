@@ -11,7 +11,7 @@ import {
 import { useEffect } from 'react'
 
 export function RegisterSwEmployee({ userData, markStepComplete }) {
-  const credentialHash = useCredentialHash(userData.name, userData.email)
+  const credentialHash = useCredentialHash(userData.email)
   const { account } = useAccount()
   const {
     data: registeredWalletData,
