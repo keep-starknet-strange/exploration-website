@@ -1,6 +1,6 @@
 export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_KUDOS_ADDRESS
 
-export const transformInt = (value) => {
+export const transformIntForAmount = (value) => {
   const transformedIntValue = BigInt(value) * BigInt(10 ** 18)
   const transformedIntValue128 = BigInt(2) ** BigInt(128)
   return {

@@ -3,7 +3,7 @@ import { useCredentialHash } from '@/hooks/useCredentialHash'
 import {
   CONTRACT_ADDRESS,
   divideBy10e18,
-  transformInt,
+  transformIntForAmount,
   walletDataHexValue,
 } from '@/lib/kudos.js'
 import { GiftIcon } from '@heroicons/react/24/outline'
@@ -53,7 +53,7 @@ export function GiveKudos({ userData, markStepComplete }) {
   const descriptionAsHex = shortString.encodeShortString(
     sendGiveKudosState.description,
   )
-  const amountU256 = transformInt(sendGiveKudosState.amount)
+  const amountU256 = transformIntForAmount(BigInt(sendGiveKudosState.amount))
 
   const givenKudosData = useKudosReadData([accountAddress], 'get_total_given')
   const hasGivenKudos = givenKudosData > 0
@@ -102,6 +102,10 @@ export function GiveKudos({ userData, markStepComplete }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target
+    // Only allow numbers (reject non-numeric characters)
+    if (name === 'amount' && !/^\d*$/.test(value)) {
+      return
+    }
     setSendGiveKudosState((prevState) => ({
       ...prevState,
       [name]: value,
@@ -217,7 +221,10 @@ export function GiveKudos({ userData, markStepComplete }) {
             value={sendGiveKudosState.amount}
             onChange={handleChange}
             type="number"
+            min="0"
+            step="1"
             id="amount"
+            pattern="\d*"
             className="bg-slate-500 border border-slate-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 no-arrows"
             required
           />
