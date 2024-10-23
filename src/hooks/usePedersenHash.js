@@ -2,7 +2,6 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { shortString } from 'starknet'
 
-
 export function usePedersenHash(value) {
   const [credentialsHash, setCredentialsHash] = useState('')
 

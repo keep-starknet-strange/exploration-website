@@ -9,7 +9,7 @@ import { usePedersenHash } from '@/hooks/usePedersenHash'
 import {
   CONTRACT_ADDRESS,
   divideBy10e18,
-  transformInt,
+  transformIntForAmount,
   walletDataHexValue,
 } from '@/lib/kudos.js'
 import { GiftIcon } from '@heroicons/react/24/outline'
