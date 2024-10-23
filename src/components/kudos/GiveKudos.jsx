@@ -22,6 +22,15 @@ const sendGiveKudosInitialState = {
   amount: BigInt(0),
 }
 
+const splitU256 = (value) => {
+  const bigIntValue = BigInt(value)
+  const BigInt128 = BigInt(2) ** BigInt(128)
+  return {
+    low: (bigIntValue % BigInt128).toString(),
+    high: (bigIntValue / BigInt128).toString(),
+  }
+}
+
 const useKudosReadData = (args, functionName) => {
   const { data: kudosData } = useReadContract({
     abi,
