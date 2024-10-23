@@ -7,9 +7,6 @@ export default function handler(req, res) {
   const isValidHex = (value) => {
     return typeof value === 'string' && /^0x[0-9a-fA-F]+$/.test(value)
   }
- 
-  if (!valueAsHex || !isValidHex(valueAsHex)) {
-  }
 
   if (!valueAsHex || !isValidHex(valueAsHex)) {
     return res.status(400).json({ error: 'Invalid or missing hex value' })
