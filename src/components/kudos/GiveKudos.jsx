@@ -15,7 +15,6 @@ const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_KUDOS_ADDRESS
 const sendGiveKudosInitialState = {
   description: '',
   email: '',
-  name: '',
   amount: 0,
 }
 
@@ -51,7 +50,6 @@ export function GiveKudos({ userData, markStepComplete }) {
 
   const senderCredentialsHash = useCredentialHash(userData.name, userData.email)
   const receiverCredentialsHash = useCredentialHash(
-    sendGiveKudosState.name,
     sendGiveKudosState.email,
   )
 
