@@ -25,11 +25,7 @@ import { shortString } from 'starknet'
 const sendGiveKudosInitialState = {
   description: '',
   email: '',
-<<<<<<< HEAD
-  amount: BigInt(0)
-=======
   amount: BigInt(0),
->>>>>>> 2123e2d (handle 10e18 integers)
 }
 
 const useKudosReadData = (args, functionName) => {
@@ -61,12 +57,8 @@ export function GiveKudos({ userData, markStepComplete }) {
   const descriptionAsHex = shortString.encodeShortString(
     sendGiveKudosState.description,
   )
-<<<<<<< HEAD
-  const amountU256 = transformIntForAmount(BigInt(sendGiveKudosState.amount))
-=======
-  const amountU256 = transformInt(sendGiveKudosState.amount)
->>>>>>> 2123e2d (handle 10e18 integers)
 
+  const amountU256 = transformIntForAmount(BigInt(sendGiveKudosState.amount))
   const givenKudosData = useKudosReadData([accountAddress], 'get_total_given')
   const hasGivenKudos = givenKudosData > 0
   const receivedKudosData = useKudosReadData(
