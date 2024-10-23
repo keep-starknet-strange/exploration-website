@@ -1,5 +1,6 @@
 import { abi } from '@/components/kudos/abi'
 import { useCredentialHash } from '@/hooks/useCredentialHash'
+import { CONTRACT_ADDRESS, transformInt, divideBy10e18, walletDataHexValue } from '@/lib/kudos.js'
 import { GiftIcon } from '@heroicons/react/24/outline'
 import {
   useAccount,
@@ -10,22 +11,11 @@ import {
 import { useEffect, useState } from 'react'
 import { shortString } from 'starknet'
 
-const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_KUDOS_ADDRESS
-
 const sendGiveKudosInitialState = {
   description: '',
   email: '',
   name: '',
   amount: BigInt(0),
-}
-
-const transformInt = (value) => {
-  const transformedIntValue = BigInt(value) * BigInt(10 ** 18)
-  const transformedIntValue128 = BigInt(2) ** BigInt(128)
-  return {
-    low: (transformedIntValue % transformedIntValue128).toString(),
-    high: (transformedIntValue / transformedIntValue128).toString(),
-  }
 }
 
 const useKudosReadData = (args, functionName) => {
@@ -38,10 +28,6 @@ const useKudosReadData = (args, functionName) => {
   })
 
   return kudosData
-}
-
-const divideBy10e18 = (value) => {
-  return value / BigInt(10 ** 18)
 }
 
 export function GiveKudos({ userData, markStepComplete }) {
@@ -76,7 +62,7 @@ export function GiveKudos({ userData, markStepComplete }) {
     'get_credential_address',
   )
 
-  const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`
+  const receiverWalletDataHexValue = walletDataHexValue(receiverWalletData)
   const receiverHasValidAddress = receiverWalletDataHexValue != '0x0'
 
   const giveKudosCalls = [
@@ -118,20 +104,17 @@ export function GiveKudos({ userData, markStepComplete }) {
   }
 
   useEffect(() => {
-    if (givenKudosData) {
-      const dividedKudosData = divideBy10e18(givenKudosData)
-      setKudosGiven(dividedKudosData)
-    }
     if (hasGivenKudos) {
       markStepComplete(2)
     }
+    if (givenKudosData) {
+      setKudosGiven(divideBy10e18(givenKudosData))
+    }
     if (receivedKudosData) {
-      const dividedReceivedKudosData = divideBy10e18(receivedKudosData)
-      setKudosReceived(dividedReceivedKudosData)
+      setKudosReceived(divideBy10e18(receivedKudosData))
     }
     if (kudosBalanceData) {
-      const dividedKudosBalanceData = divideBy10e18(kudosBalanceData)
-      setKudosBalance(dividedKudosBalanceData)
+      setKudosBalance(divideBy10e18(kudosBalanceData))
     }
   }, [
     givenKudosData,
