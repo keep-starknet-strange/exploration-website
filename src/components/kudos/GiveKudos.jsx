@@ -19,8 +19,16 @@ import { shortString } from 'starknet'
 const sendGiveKudosInitialState = {
   description: '',
   email: '',
-  name: '',
-  amount: BigInt(0),
+  amount: BigInt(0)
+}
+
+const splitU256 = (value) => {
+  const bigIntValue = BigInt(value)
+  const BigInt128 = BigInt(2) ** BigInt(128)
+  return {
+    low: (bigIntValue % BigInt128).toString(),
+    high: (bigIntValue / BigInt128).toString(),
+  }
 }
 
 const useKudosReadData = (args, functionName) => {
@@ -46,7 +54,6 @@ export function GiveKudos({ userData, markStepComplete }) {
 
   const senderCredentialsHash = useCredentialHash(userData.name, userData.email)
   const receiverCredentialsHash = useCredentialHash(
-    sendGiveKudosState.name,
     sendGiveKudosState.email,
   )
 
