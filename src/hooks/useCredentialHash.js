@@ -2,18 +2,16 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { shortString } from 'starknet'
 
-export function useCredentialHash(name, email) {
+export function useCredentialHash(email) {
   const [credentialsHash, setCredentialsHash] = useState('')
 
   useEffect(() => {
     const fetchCredentialHash = async () => {
-      if (name && email) {
-        const nameHex = shortString.encodeShortString(name)
+      if (email) {
         const emailHex = shortString.encodeShortString(email)
 
         try {
           const response = await axios.post('/api/pedersen-hash', {
-            nameHex,
             emailHex,
           })
           setCredentialsHash(response.data.hash)
@@ -23,6 +21,6 @@ export function useCredentialHash(name, email) {
       }
     }
     fetchCredentialHash()
-  }, [name, email])
+  }, [email])
   return credentialsHash
 }

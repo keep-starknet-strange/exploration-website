@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_KUDOS_ADDRESS
 
 export function RegisterSwEmployee({ userData, markStepComplete }) {
-  const credentialHash = useCredentialHash(userData.name, userData.email)
+  const credentialHash = useCredentialHash(userData.email)
   const { account } = useAccount()
   const {
     data: registeredWalletData,
