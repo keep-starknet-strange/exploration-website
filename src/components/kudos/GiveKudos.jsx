@@ -1,11 +1,11 @@
 import { abi } from '@/components/kudos/abi'
-import { useCredentialHash } from '@/hooks/useCredentialHash'
 import {
   CONTRACT_ADDRESS,
   divideBy10e18,
   transformIntForAmount,
   walletDataHexValue,
 } from '@/lib/kudos.js'
+import { usePedersenHash } from '@/hooks/usePedersenHash'
 import { GiftIcon } from '@heroicons/react/24/outline'
 import {
   useAccount,
@@ -52,8 +52,8 @@ export function GiveKudos({ userData, markStepComplete }) {
     sendGiveKudosInitialState,
   )
 
-  const senderCredentialsHash = useCredentialHash(userData.name, userData.email)
-  const receiverCredentialsHash = useCredentialHash(
+  const senderCredentialsHash = usePedersenHash(userData.name, userData.email)
+  const receiverCredentialsHash = usePedersenHash(
     sendGiveKudosState.email,
   )
 
