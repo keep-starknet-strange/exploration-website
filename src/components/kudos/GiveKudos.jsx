@@ -1,5 +1,5 @@
 import { abi } from '@/components/kudos/abi'
-import { useCredentialHash } from '@/hooks/useCredentialHash'
+import { usePedersenHash } from '@/hooks/usePedersenHash'
 import { GiftIcon } from '@heroicons/react/24/outline'
 import {
   useAccount,
@@ -15,7 +15,6 @@ const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_KUDOS_ADDRESS
 const sendGiveKudosInitialState = {
   description: '',
   email: '',
-  name: '',
   amount: 0,
 }
 
@@ -49,9 +48,8 @@ export function GiveKudos({ userData, markStepComplete }) {
     sendGiveKudosInitialState,
   )
 
-  const senderCredentialsHash = useCredentialHash(userData.name, userData.email)
-  const receiverCredentialsHash = useCredentialHash(
-    sendGiveKudosState.name,
+  const senderCredentialsHash = usePedersenHash(userData.name, userData.email)
+  const receiverCredentialsHash = usePedersenHash(
     sendGiveKudosState.email,
   )
 
@@ -140,15 +138,6 @@ export function GiveKudos({ userData, markStepComplete }) {
         className={`h-14 w-14 mx-auto text-${hasGivenKudos ? 'emerald-600' : 'slate-50'}`}
       />
       <div className="text-md font-light text-slate-50 mt-12 px-8">
-        {kudosGiven == 0
-          ? 'Send some tokens to a teammate'
-          : `You've given ${kudosGiven} Kudos and have ${kudosBalance} don't be stingy!`}
-        <br />
-        <br />
-        {kudosReceived == 0
-          ? "You haven't received any Kudos, expect a PIP soon"
-          : `You've recieved ${kudosReceived}. That's not very many compared to your coworkers`}
-        <br />
         <br />
         Message receivers can verify the data both on-chain and off.
       </div>
@@ -176,24 +165,6 @@ export function GiveKudos({ userData, markStepComplete }) {
       <div className="grid gap-6 my-6 md:grid-cols-2">
         <div>
           <label
-            htmlFor="full_name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Full Name
-          </label>
-          <input
-            onChange={handleChange}
-            type="text"
-            name="name"
-            value={sendGiveKudosState.name}
-            placeHolder={'Eli Ben-Sasson'}
-            id="full_name"
-            className="bg-slate-500 border border-slate-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required
-          />
-        </div>
-        <div>
-          <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
@@ -206,6 +177,7 @@ export function GiveKudos({ userData, markStepComplete }) {
             value={sendGiveKudosState.email}
             placeHolder={'eli@starkware.co'}
             id="Email"
+            maxLength={31}
             className="bg-slate-500 border border-slate-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
           />
@@ -240,6 +212,7 @@ export function GiveKudos({ userData, markStepComplete }) {
             value={sendGiveKudosState.description}
             type="text"
             id="pin"
+            maxLength={31}
             className="bg-slate-500 border border-slate-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
           />

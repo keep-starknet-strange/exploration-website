@@ -1,5 +1,5 @@
 import { abi } from '@/components/kudos/abi'
-import { useCredentialHash } from '@/hooks/useCredentialHash'
+import { usePedersenHash } from '@/hooks/usePedersenHash'
 import { CheckCircleIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
   useAccount,
@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_KUDOS_ADDRESS
 
 export function RegisterSwEmployee({ userData, markStepComplete }) {
-  const credentialHash = useCredentialHash(userData.name, userData.email)
+  const credentialHash = usePedersenHash(userData.email)
   const { account } = useAccount()
   const {
     data: registeredWalletData,
