@@ -1,4 +1,5 @@
 import { abi } from '@/components/kudos/abi'
+import { CONTRACT_ADDRESS, walletDataHexValue } from '@/lib/kudos'
 import { usePedersenHash } from '@/hooks/usePedersenHash'
 import { CheckCircleIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import {
@@ -7,9 +8,7 @@ import {
   useSendTransaction,
   useTransactionReceipt,
 } from '@starknet-react/core'
-import { useEffect, useState } from 'react'
-
-const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_KUDOS_ADDRESS
+import { useEffect } from 'react'
 
 export function RegisterSwEmployee({ userData, markStepComplete }) {
   const credentialHash = usePedersenHash(userData.email)
@@ -37,7 +36,7 @@ export function RegisterSwEmployee({ userData, markStepComplete }) {
   })
 
   const walletIsRegistered = isRegisteredData == 1
-  const registeredWalletDataHexValue = `0x${BigInt(registeredWalletData || '').toString(16)}`
+  const registeredWalletDataHexValue = walletDataHexValue(registeredWalletData)
   const credentialIsRegistered = registeredWalletDataHexValue != '0x0'
   const correctWallet =
     registeredWalletDataHexValue == account?.address ? true : false

@@ -1,4 +1,10 @@
 import { abi } from '@/components/kudos/abi'
+import {
+  CONTRACT_ADDRESS,
+  divideBy10e18,
+  transformIntForAmount,
+  walletDataHexValue,
+} from '@/lib/kudos.js'
 import { usePedersenHash } from '@/hooks/usePedersenHash'
 import { GiftIcon } from '@heroicons/react/24/outline'
 import {
@@ -10,12 +16,10 @@ import {
 import { useEffect, useState } from 'react'
 import { shortString } from 'starknet'
 
-const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_KUDOS_ADDRESS
-
 const sendGiveKudosInitialState = {
   description: '',
   email: '',
-  amount: 0,
+  amount: BigInt(0),
 }
 
 const splitU256 = (value) => {
@@ -41,23 +45,20 @@ const useKudosReadData = (args, functionName) => {
 
 export function GiveKudos({ userData, markStepComplete }) {
   const { address: accountAddress } = useAccount()
-  const [kudosGiven, setKudosGiven] = useState(0)
-  const [kudosReceived, setKudosReceived] = useState(0)
-  const [kudosBalance, setKudosBalance] = useState(0)
+  const [kudosGiven, setKudosGiven] = useState(BigInt(0))
+  const [kudosReceived, setKudosReceived] = useState(BigInt(0))
+  const [kudosBalance, setKudosBalance] = useState(BigInt(0))
   const [sendGiveKudosState, setSendGiveKudosState] = useState(
     sendGiveKudosInitialState,
   )
 
-  const senderCredentialsHash = usePedersenHash(userData.name, userData.email)
-  const receiverCredentialsHash = usePedersenHash(
-    sendGiveKudosState.email,
-  )
+  const senderCredentialsHash = usePedersenHash(userData.email)
+  const receiverCredentialsHash = usePedersenHash(sendGiveKudosState.email)
 
   const descriptionAsHex = shortString.encodeShortString(
     sendGiveKudosState.description,
   )
-  const amountU256 = splitU256(sendGiveKudosState.amount)
-
+  const amountU256 = transformIntForAmount(BigInt(sendGiveKudosState.amount))
   const givenKudosData = useKudosReadData([accountAddress], 'get_total_given')
   const hasGivenKudos = givenKudosData > 0
   const receivedKudosData = useKudosReadData(
@@ -70,7 +71,7 @@ export function GiveKudos({ userData, markStepComplete }) {
     'get_credential_address',
   )
 
-  const receiverWalletDataHexValue = `0x${BigInt(receiverWalletData || '').toString(16)}`
+  const receiverWalletDataHexValue = walletDataHexValue(receiverWalletData)
   const receiverHasValidAddress = receiverWalletDataHexValue != '0x0'
 
   const giveKudosCalls = [
@@ -105,6 +106,10 @@ export function GiveKudos({ userData, markStepComplete }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target
+    // Only allow numbers (reject non-numeric characters)
+    if (name === 'amount' && !/^\d*$/.test(value)) {
+      return
+    }
     setSendGiveKudosState((prevState) => ({
       ...prevState,
       [name]: value,
@@ -112,17 +117,17 @@ export function GiveKudos({ userData, markStepComplete }) {
   }
 
   useEffect(() => {
-    if (givenKudosData) {
-      setKudosGiven(givenKudosData)
-    }
     if (hasGivenKudos) {
       markStepComplete(2)
     }
+    if (givenKudosData) {
+      setKudosGiven(divideBy10e18(givenKudosData))
+    }
     if (receivedKudosData) {
-      setKudosReceived(receivedKudosData)
+      setKudosReceived(divideBy10e18(receivedKudosData))
     }
     if (kudosBalanceData) {
-      setKudosBalance(kudosBalanceData)
+      setKudosBalance(divideBy10e18(kudosBalanceData))
     }
   }, [
     givenKudosData,
@@ -194,7 +199,10 @@ export function GiveKudos({ userData, markStepComplete }) {
             value={sendGiveKudosState.amount}
             onChange={handleChange}
             type="number"
+            min="0"
+            step="1"
             id="amount"
+            pattern="\d*"
             className="bg-slate-500 border border-slate-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 no-arrows"
             required
           />
